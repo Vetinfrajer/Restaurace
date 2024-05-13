@@ -16,7 +16,7 @@ table 50103 "Rest.Ordr.Line"
             trigger OnValidate()
             begin
                 if Rec."Item No." <> '' then
-                    UpdateInfo();
+                    UpdateInfoByItemNo();
 
                 Updateamounts();
             end;
@@ -55,6 +55,7 @@ table 50103 "Rest.Ordr.Line"
         field(7; "Name"; Text[250])
         {
             Caption = 'Name';
+            TableRelation = Item.Description;
         }
     }
 
@@ -80,9 +81,9 @@ table 50103 "Rest.Ordr.Line"
         end;
     end;
     /// <summary>
-    /// UpdateInfo.
+    /// UpdateInfoByItemNo.
     /// </summary>
-    procedure UpdateInfo()
+    procedure UpdateInfoByItemNo()
     var
         ItemRecord: Record Item;
     begin

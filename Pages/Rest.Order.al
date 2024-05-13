@@ -14,6 +14,14 @@ page 50110 "Restaurant Order"
         {
             group(General)
             {
+                part(RestSubpage; "Restaurant Order Subpage")
+                {
+                    ApplicationArea = All;
+                }
+            }
+            repeater(Lines)
+            {
+
                 field(Name; Rec.name)
                 {
                     ApplicationArea = All;
@@ -59,10 +67,8 @@ page 50110 "Restaurant Order"
                     Caption = 'Item No.';
                     ToolTip = 'Item No.';
                 }
+
             }
         }
     }
-
-    var
-        myInt: Integer;
 }

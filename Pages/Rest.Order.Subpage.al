@@ -3,27 +3,38 @@
 /// </summary>
 page 50112 "Restaurant Order Subpage"
 {
-    PageType = Card;
+    PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
+    SourceTable = "Rest. Order Header";
 
 
-    actions
+    layout
     {
-        area(Processing)
+        area(Content)
         {
-            action(ActionName)
+            group(General)
             {
-                ApplicationArea = All;
 
-                trigger OnAction()
-                begin
-
-                end;
+                field("No."; Rec."No.")
+                {
+                    Caption = 'No.';
+                }
+                field("Customer No."; Rec."Customer No.")
+                {
+                    Caption = 'Customer No.';
+                }
+                field("Rest. Table Code"; Rec."Rest. Table Code")
+                {
+                    Caption = 'Restaurant Table Code';
+                }
+                field("Rest. No."; Rec."Rest. No.")
+                {
+                    Caption = 'Restaurant Number';
+                }
             }
         }
+
     }
 
-    var
-        myInt: Integer;
 }
