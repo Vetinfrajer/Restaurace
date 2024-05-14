@@ -1,13 +1,13 @@
 /// <summary>
 /// OnInsert.
 /// </summary>
-table 50104 "Rest. Setup"
+table 50104 "Restaurant Setup"
 {
     DataClassification = CustomerContent;
     Caption = 'Restaurant Setup';
-    LookupPageId = "Rest. Setup Page";
-    DrillDownPageId = "Rest. Setup Page";
-    
+    LookupPageId = "Restaurant Setup";
+    DrillDownPageId = "Restaurant Setup";
+
     fields
     {
         field(1; "Primary Key"; Code[10])

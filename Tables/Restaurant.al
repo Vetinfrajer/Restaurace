@@ -5,9 +5,8 @@ table 50101 Restaurant
 {
     DataClassification = CustomerContent;
     Caption = 'Restaurant';
-
-    LookupPageId = "Rest. Setup Page";
-    DrillDownPageId = "Rest. Setup Page";
+    LookupPageId = "Restaurant List";
+    DrillDownPageId = "Restaurant List";
 
     fields
     {
@@ -40,16 +39,24 @@ table 50101 Restaurant
         }
     }
 
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeTestNoSeries(var Restaurant: Record Restaurant; xRestaurant: Record Restaurant; var IsHandled: Boolean)
+    trigger OnInsert()
+    var
+        RestaurantSetup: Record "Restaurant Setup";
+        NoSeriesMgt: Codeunit NoSeriesManagement;
     begin
+        if "No." = '' then begin
+            RestaurantSetup.Get();
+            RestaurantSetup.TestField("Restaurant Nos.");
+            NoSeriesMgt.InitSeries(RestaurantSetup."Restaurant Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+        end;
     end;
+    // dodělat číslování
 
     local procedure TestNoSeries()
     var
         Restaurant: Record Restaurant;
         IsHandled: Boolean;
-        RestaurantSetup: Record "Rest. Setup";
+        RestaurantSetup: Record "Restaurant Setup";
         NoSeriesMgt: Codeunit NoSeriesManagement;
     begin
         IsHandled := false;
@@ -65,7 +72,27 @@ table 50101 Restaurant
             end;
     end;
 
+    /// <summary>
+    /// AssistEdit.
+    /// </summary>
+    /// <param name="OldCust">Record Customer.</param>
+    /// <returns>Return value of type Boolean.</returns>
+    procedure AssistEdit(OldCust: Record Restaurant): Boolean
+    var
+        RestaurantSetup: Record "Restaurant Setup";
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+    begin
+        RestaurantSetup.Get();
+        RestaurantSetup.TestField("Restaurant Nos.");
+        if NoSeriesMgt.SelectSeries(RestaurantSetup."Restaurant Nos.", OldCust."No. Series", "No. Series") then begin
+            NoSeriesMgt.SetSeries("No.");
+            exit(true);
+        end;
+    end;
 
-
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeTestNoSeries(var Restaurant: Record Restaurant; xRestaurant: Record Restaurant; var IsHandled: Boolean)
+    begin
+    end;
 
 }

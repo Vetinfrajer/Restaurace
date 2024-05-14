@@ -1,7 +1,7 @@
 /// <summary>
-/// Page Rest. List (ID 50107).
+/// Page MyPage (ID 50105).
 /// </summary>
-page 50107 "Rest. List"
+page 50105 "Restaurant Tables"
 {
     PageType = Card;
     ApplicationArea = All;
@@ -28,7 +28,7 @@ page 50107 "Rest. List"
             action(ActionName)
             {
                 ApplicationArea = All;
-
+                ToolTip = 'Executes the ActionName action.';
                 trigger OnAction()
                 begin
 

@@ -5,8 +5,8 @@ table 50149 "Restaurant Table"
 {
     DataClassification = CustomerContent;
     Caption = 'Restaurant Table';
-    LookupPageId = "Rest. Tables";
-    DrillDownPageId = "Rest. Tables";
+    LookupPageId = "Restaurant Tables";
+    DrillDownPageId = "Restaurant Tables";
 
     fields
     {

@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Git Stage, Commit, Push",
+            "type": "shell",
+            "command": "git add . && git commit -m \"Update\" && git push",
+            "problemMatcher": []
+        }
+    ]
+}

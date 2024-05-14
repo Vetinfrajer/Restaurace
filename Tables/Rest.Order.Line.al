@@ -1,12 +1,12 @@
 /// <summary>
 /// Table MyTable (ID 50103).
 /// </summary>
-table 50103 "Rest.Ordr.Line"
+table 50103 "Rest. Order Line"
 {
     DataClassification = CustomerContent;
     Caption = 'My Table';
-    LookupPageId = "Restaurant Order List";
-    DrillDownPageId = "Restaurant Order List";
+    LookupPageId = "Rest. Order List";
+    DrillDownPageId = "Rest. Order List";
 
     fields
     {
@@ -21,7 +21,6 @@ table 50103 "Rest.Ordr.Line"
                 Updateamounts();
             end;
         }
-
         field(2; "Rest. Order No."; Code[20])
         {
             TableRelation = "Rest. Order Header"."No.";
@@ -56,6 +55,10 @@ table 50103 "Rest.Ordr.Line"
         {
             Caption = 'Name';
             TableRelation = Item.Description;
+            trigger OnValidate()
+            begin
+                UpdateInfoByName();
+            end;
         }
     }
 
@@ -67,12 +70,9 @@ table 50103 "Rest.Ordr.Line"
         }
     }
 
-    var
-        myInt: Integer;
-
     trigger OnInsert()
     var
-        LastRecord: Record "Rest.Ordr.Line";
+        LastRecord: Record "Rest. Order Line";
     begin
         if Rec."Line No." = 0 then begin
             if LastRecord.FINDLAST then
@@ -91,6 +91,21 @@ table 50103 "Rest.Ordr.Line"
             Rec."Unit Price" := ItemRecord."Unit Price";
             Rec."Name" := ItemRecord.Description;
         end;
+    end;
+
+    /// <summary>
+    /// UpdateInfoByName.
+    /// </summary>
+    procedure UpdateInfoByName()
+    var
+        itemRecord: Record Item;
+    begin
+        if itemRecord.GET(Rec."Name") then begin
+            Rec."Unit Price" := itemRecord."Unit Price";
+            Rec."Item No." := ItemRecord."No.";
+        end;
+
+
     end;
     /// <summary>
     /// Update Line Amount.

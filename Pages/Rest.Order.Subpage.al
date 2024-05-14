@@ -6,35 +6,56 @@ page 50112 "Restaurant Order Subpage"
     PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = "Rest. Order Header";
+    SourceTable = "rest. order line";
 
 
     layout
     {
         area(Content)
         {
-            group(General)
+            repeater(Lines)
             {
+                field(Name; Rec.name)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Name field.';
+                }
+                field("Rest. Order No."; Rec."Rest. Order No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Rest. Order No. field.';
+                    trigger OnValidate()
+                    begin
+                    end;
+                }
+                field("Line No."; Rec."Line No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Line No. field.';
+                }
+                field("Quantity"; Rec."Quantity")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Quantity field.';
+                }
+                field("Unit Price"; Rec."Unit Price")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Unit Price field.';
+                }
+                field("Line Amount"; Rec."Line Amount")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Line Amount field.';
+                }
+                field("Item No."; Rec."Item No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Item No. field.';
+                }
 
-                field("No."; Rec."No.")
-                {
-                    Caption = 'No.';
-                }
-                field("Customer No."; Rec."Customer No.")
-                {
-                    Caption = 'Customer No.';
-                }
-                field("Rest. Table Code"; Rec."Rest. Table Code")
-                {
-                    Caption = 'Restaurant Table Code';
-                }
-                field("Rest. No."; Rec."Rest. No.")
-                {
-                    Caption = 'Restaurant Number';
-                }
             }
         }
 
     }
-
 }
