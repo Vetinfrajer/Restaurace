@@ -14,8 +14,6 @@ table 50102 "Rest. Order Header"
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
-
-
         }
         field(2; "Customer No."; Code[20])
         {
@@ -30,21 +28,29 @@ table 50102 "Rest. Order Header"
         field(4; "Rest. No."; Code[20])
         {
             Caption = 'Rest. No.';
+            TableRelation = "Restaurant"."No.";
         }
         field(5; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
-            TableRelation = "Restaurant"."No. Series";
+            TableRelation = "No. Series";
         }
     }
 
     keys
     {
-        key(PK; "No.", "Rest. Table Code")
+        key(PK; "No.")
         {
             Clustered = true;
         }
     }
+    trigger OnDelete()
+    var
+        myInt: Integer;
+    begin
+
+    end;
+
     /// <summary>
     /// GenerovatCislo.
     /// </summary>

@@ -8,7 +8,6 @@ page 50106 "Restaurant Card"
     UsageCategory = None;
     SourceTable = "Restaurant";
 
-
     layout
     {
         area(Content)
@@ -19,7 +18,6 @@ page 50106 "Restaurant Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Rest No.';
-
                     trigger OnAssistEdit()
                     begin
                         Rec.AssistEdit(xRec);
@@ -34,11 +32,10 @@ page 50106 "Restaurant Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'No. Series';
+                    TableRelation = "No. Series";
                 }
             }
+
         }
     }
-
-
-
 }

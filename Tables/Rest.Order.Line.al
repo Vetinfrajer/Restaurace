@@ -10,57 +10,57 @@ table 50103 "Rest. Order Line"
 
     fields
     {
-        field(1; "Item No."; Code[20])
-        {
-            TableRelation = Item."No.";
-            trigger OnValidate()
-            begin
-                if Rec."Item No." <> '' then
-                    UpdateInfoByItemNo();
-
-                Updateamounts();
-            end;
-        }
-        field(2; "Rest. Order No."; Code[20])
+        field(1; "Rest. Order No."; Code[20])
         {
             TableRelation = "Rest. Order Header"."No.";
             Caption = 'Rest. Order No.';
         }
-        field(3; "Line No."; Integer)
+
+        field(2; "Line No."; Integer)
         {
             Caption = 'Line No.';
         }
+
+        field(3; "Name"; Text[50])
+        {
+            Caption = 'Name';
+        }
+
         field(4; "Quantity"; Integer)
         {
             Caption = 'Quantity';
             trigger OnValidate()
             begin
-                Updateamounts();
+                UpdateAmounts();
             end;
         }
+
         field(5; "Unit Price"; Decimal)
         {
             Caption = 'Unit Price';
             trigger OnValidate()
             begin
-                Updateamounts();
+                UpdateAmounts();
             end;
         }
+
         field(6; "Line Amount"; Decimal)
         {
             Caption = 'Line Amount';
             Editable = false;
-        }
-        field(7; "Name"; Text[250])
-        {
-            Caption = 'Name';
-            TableRelation = Item.Description;
+            FieldClass = Normal;
             trigger OnValidate()
             begin
-                UpdateInfoByName();
+                UpdateInfoByItemNo();
             end;
         }
+
+        field(7; "Item No."; Code[20])
+        {
+            Caption = 'Item No.';
+        }
     }
+
 
     keys
     {

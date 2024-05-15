@@ -1,19 +1,18 @@
 /// <summary>
-/// Page MyPage (ID 50105).
+/// Page Restaurant Tables Card (ID 50136).
 /// </summary>
-page 50105 "Restaurant Tables"
+page 50136 "Restaurant Tables Card"
 {
-    PageType = List;
+    PageType = Card;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Restaurant Table";
-    CardPageId = "Restaurant Tables Card";
 
     layout
     {
         area(Content)
         {
-            repeater(Lines)
+            group(General)
             {
                 field("Code"; Rec."Code")
                 {
@@ -34,6 +33,7 @@ page 50105 "Restaurant Tables"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. No. field.';
+                    TableRelation = "Restaurant"."No.";
                 }
             }
         }

@@ -39,19 +39,7 @@ table 50101 Restaurant
         }
     }
 
-    trigger OnInsert()
-    var
-        RestaurantSetup: Record "Restaurant Setup";
-        NoSeriesMgt: Codeunit NoSeriesManagement;
-    begin
-        if "No." = '' then begin
-            RestaurantSetup.Get();
-            RestaurantSetup.TestField("Restaurant Nos.");
-            NoSeriesMgt.InitSeries(RestaurantSetup."Restaurant Nos.", xRec."No. Series", 0D, "No.", "No. Series");
-        end;
-    end;
-    // dodělat číslování
-
+    // Lokální procedura pro testování číselné řady
     local procedure TestNoSeries()
     var
         Restaurant: Record Restaurant;
@@ -72,6 +60,13 @@ table 50101 Restaurant
             end;
     end;
 
+    // Lokální procedura pro událost před testem číselné řady
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeTestNoSeries(var Restaurant: Record Restaurant; xRestaurant: Record Restaurant; var IsHandled: Boolean)
+    begin
+    end;
+
+
     /// <summary>
     /// AssistEdit.
     /// </summary>
@@ -79,8 +74,9 @@ table 50101 Restaurant
     /// <returns>Return value of type Boolean.</returns>
     procedure AssistEdit(OldCust: Record Restaurant): Boolean
     var
-        RestaurantSetup: Record "Restaurant Setup";
         NoSeriesMgt: Codeunit NoSeriesManagement;
+        RestaurantSetup: Record "Restaurant Setup";
+
     begin
         RestaurantSetup.Get();
         RestaurantSetup.TestField("Restaurant Nos.");
@@ -90,9 +86,20 @@ table 50101 Restaurant
         end;
     end;
 
-    [IntegrationEvent(false, false)]
-    local procedure OnBeforeTestNoSeries(var Restaurant: Record Restaurant; xRestaurant: Record Restaurant; var IsHandled: Boolean)
+
+    trigger OnInsert()
+
+    var
+        IsHandled: Boolean;
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        RestaurantSetup: Record "Restaurant Setup";
     begin
+
+        if "No." = '' then begin
+            RestaurantSetup.Get();
+            RestaurantSetup.TestField("Restaurant Nos.");
+            NoSeriesMgt.InitSeries(RestaurantSetup."Restaurant Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+        end;
     end;
 
 }

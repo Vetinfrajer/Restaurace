@@ -7,7 +7,8 @@ page 50117 "Restaurant Setup"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Restaurant Setup";
-
+    DeleteAllowed = false;
+    InsertAllowed = false;
 
     layout
     {
@@ -15,19 +16,28 @@ page 50117 "Restaurant Setup"
         {
             group(General)
             {
-                field("Primary Key"; Rec."Primary Key")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Primary Key field.';
-                }
                 field("Restaurant Nos."; Rec."Restaurant Nos.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Restaurant Nos. field.';
                 }
+                field("Restaurant Order Nos."; Rec."Restaurant Order Nos.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Restaurant Order Nos. field.';
+                }
             }
         }
     }
 
-
+    trigger OnOpenPage()
+    var
+        LastRecord: Record "Restaurant Setup";
+    begin
+        Rec.Reset();
+        if not Rec.Get() then begin
+            Rec.Init();
+            Rec.Insert();
+        end;
+    end;
 }

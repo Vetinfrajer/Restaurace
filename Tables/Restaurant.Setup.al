@@ -14,18 +14,18 @@ table 50104 "Restaurant Setup"
         {
             DataClassification = CustomerContent;
             Caption = 'Primary Key';
-
         }
         field(2; "Restaurant Nos."; Code[20])
-
         {
             DataClassification = CustomerContent;
             Caption = 'Restaurant Nos.';
             TableRelation = "No. Series".Code;
         }
-
+        field(3; "Restaurant Order Nos."; Code[20])
+        {
+            Caption = 'Restaurant Order Nos.';
+        }
     }
-
     keys
     {
         key(PK; "Primary Key")
