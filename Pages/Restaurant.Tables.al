@@ -3,40 +3,28 @@
 /// </summary>
 page 50105 "Restaurant Tables"
 {
-    PageType = Card;
+    PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    /*
+    SourceTable = "Restaurant Table";
+
     layout
     {
         area(Content)
         {
-            group(GroupName)
+            repeater(Lines)
             {
-                field(Name; NameSource)
+                field("Rest.No"; Rec."Rest. No.")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Rest. No. field.';
+                }
+                field("Code"; Rec."Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Code field.';
                 }
             }
         }
     }
-*/
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                ApplicationArea = All;
-                ToolTip = 'Executes the ActionName action.';
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
-    }
-
-    var
-        myInt: Integer;
 }

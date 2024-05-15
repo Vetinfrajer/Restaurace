@@ -24,14 +24,14 @@ page 50112 "Restaurant Order Subpage"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. Order No. field.';
-                    trigger OnValidate()
-                    begin
-                    end;
+
+
                 }
                 field("Line No."; Rec."Line No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Line No. field.';
+
                 }
                 field("Quantity"; Rec."Quantity")
                 {

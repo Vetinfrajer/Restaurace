@@ -18,7 +18,6 @@ table 50149 "Restaurant Table"
         {
             Caption = 'Code';
         }
-
     }
 
     keys

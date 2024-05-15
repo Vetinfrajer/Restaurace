@@ -14,11 +14,8 @@ table 50102 "Rest. Order Header"
         field(1; "No."; Code[20])
         {
             Caption = 'No.';
-            trigger OnValidate()
-            begin
-                if "No." = '' then
-                    "No." := GenerovatCislo();
-            end;
+
+
         }
         field(2; "Customer No."; Code[20])
         {
