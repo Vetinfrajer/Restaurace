@@ -32,7 +32,6 @@ page 50106 "Restaurant Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'No. Series';
-                    TableRelation = "No. Series";
                 }
             }
 

@@ -6,7 +6,7 @@ table 50102 "Rest. Order Header"
     DataClassification = CustomerContent;
     LookupPageId = "Rest. Order";
     DrillDownPageId = "Rest. Order";
-    Caption = 'Restaurant Order Hdr.';
+    Caption = 'Restaurant Order Header';
 
 
     fields
@@ -35,8 +35,16 @@ table 50102 "Rest. Order Header"
             Caption = 'No. Series';
             TableRelation = "No. Series";
         }
+        field(6; "Amount"; Decimal)
+        {
+            Caption = 'Amount';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = Sum("Rest. Order Line"."Line Amount" where
+                ("Rest. Order No." = field("No."))
+            );
+        }
     }
-
     keys
     {
         key(PK; "No.")
@@ -44,23 +52,5 @@ table 50102 "Rest. Order Header"
             Clustered = true;
         }
     }
-    trigger OnDelete()
-    var
-        myInt: Integer;
-    begin
 
-    end;
-
-    /// <summary>
-    /// GenerovatCislo.
-    /// </summary>
-    /// <returns>Return value of type Code[20].</returns>
-    procedure GenerovatCislo(): Code[20]
-    var
-        NoSeriesMgt: Codeunit NoSeriesManagement;
-        NewNumber: Code[20];
-    begin
-        NewNumber := NoSeriesMgt.GetNextNo('MYNOSERIES', 0D, true);
-        exit(NewNumber);
-    end;
 }

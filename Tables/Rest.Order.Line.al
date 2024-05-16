@@ -14,6 +14,7 @@ table 50103 "Rest. Order Line"
         {
             TableRelation = "Rest. Order Header"."No.";
             Caption = 'Rest. Order No.';
+            Editable = true;
         }
 
         field(2; "Line No."; Integer)
@@ -24,6 +25,12 @@ table 50103 "Rest. Order Line"
         field(3; "Name"; Text[50])
         {
             Caption = 'Name';
+            TableRelation = Item.Description;
+            trigger OnValidate()
+            begin
+                UpdateInfoByName();
+                UpdateAmounts();
+            end;
         }
 
         field(4; "Quantity"; Integer)
@@ -49,37 +56,42 @@ table 50103 "Rest. Order Line"
             Caption = 'Line Amount';
             Editable = false;
             FieldClass = Normal;
-            trigger OnValidate()
-            begin
-                UpdateInfoByItemNo();
-            end;
         }
 
         field(7; "Item No."; Code[20])
         {
             Caption = 'Item No.';
+            TableRelation = Item."No.";
+            trigger OnValidate()
+            begin
+                UpdateInfoByItemNo();
+                UpdateAmounts();
+            end;
         }
     }
 
 
     keys
     {
-        key(PK; "Rest. Order No.", "Line No.")
+        key(PK; "Line No.")
         {
             Clustered = true;
         }
     }
-
     trigger OnInsert()
     var
         LastRecord: Record "Rest. Order Line";
+        "No": Record "Rest. Order Header";
     begin
         if Rec."Line No." = 0 then begin
             if LastRecord.FINDLAST then
                 Rec."Line No." := LastRecord."Line No.";
             rec."Line No." += 10000;
         end;
+        if "No"."No." <> '' then
+            Rec."Rest. Order No." := "No"."No.";
     end;
+
     /// <summary>
     /// UpdateInfoByItemNo.
     /// </summary>
@@ -100,7 +112,8 @@ table 50103 "Rest. Order Line"
     var
         itemRecord: Record Item;
     begin
-        if itemRecord.GET(Rec."Name") then begin
+        itemRecord.SetRange("Description", Rec.Name);
+        if itemRecord.FindFirst() then begin
             Rec."Unit Price" := itemRecord."Unit Price";
             Rec."Item No." := ItemRecord."No.";
         end;
@@ -114,5 +127,6 @@ table 50103 "Rest. Order Line"
     begin
         Rec."Line Amount" := Rec."Quantity" * Rec."Unit Price";
     end;
+
 
 }

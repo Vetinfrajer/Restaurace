@@ -22,33 +22,35 @@ page 50110 "Rest. Order"
                 field("Customer No."; Rec."Customer No.")
                 {
                     ApplicationArea = All;
-                    TableRelation = "Customer"."No.";
                     ToolTip = 'Specifies the value of the Customer No. field.';
                 }
                 field("Rest. Table Code"; Rec."Rest. Table Code")
                 {
                     ApplicationArea = All;
-                    TableRelation = "Restaurant Table"."Code";
                     ToolTip = 'Specifies the value of the Rest. Table Code field.';
                 }
                 field("Rest. No."; Rec."Rest. No.")
                 {
                     ApplicationArea = All;
-                    TableRelation = "Restaurant"."No.";
                     ToolTip = 'Specifies the value of the Rest. No. field.';
                 }
                 field("No. Series"; Rec."No. Series")
                 {
                     ApplicationArea = All;
-                    TableRelation = "Rest. Order Header"."No. Series";
                     ToolTip = 'Specifies the value of the No. Series field.';
+                }
+                field("Amount"; Rec."Amount")
+                {
+                    ApplicationArea = All;
                 }
             }
             part("Lines"; "Restaurant Order Subpage")
             {
                 ApplicationArea = All;
+                UpdatePropagation = Both;
+                SubPageLink
+
             }
         }
-
     }
 }

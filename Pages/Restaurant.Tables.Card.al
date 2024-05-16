@@ -33,7 +33,6 @@ page 50136 "Restaurant Tables Card"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. No. field.';
-                    TableRelation = "Restaurant"."No.";
                 }
             }
         }
