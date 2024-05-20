@@ -15,6 +15,11 @@ page 50112 "Restaurant Order Subpage"
         {
             repeater(Lines)
             {
+                field("Item No."; Rec."Item No.")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Item No. field.';
+                }
                 field(Name; Rec.name)
                 {
                     ApplicationArea = All;
@@ -48,14 +53,26 @@ page 50112 "Restaurant Order Subpage"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Line Amount field.';
                 }
-                field("Item No."; Rec."Item No.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Item No. field.';
-                }
+
 
             }
         }
 
+    }
+    //akce na otevření stolů
+    actions
+    {
+        area(Processing)
+        {
+            action(OpenTables)
+            {
+                ApplicationArea = All;
+
+                trigger OnAction()
+                begin
+                    //OpenPage(Page::"Restaurant Tables");
+                end;
+            }
+        }
     }
 }

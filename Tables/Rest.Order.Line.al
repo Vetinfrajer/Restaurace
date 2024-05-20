@@ -14,7 +14,6 @@ table 50103 "Rest. Order Line"
         {
             TableRelation = "Rest. Order Header"."No.";
             Caption = 'Rest. Order No.';
-            Editable = true;
         }
 
         field(2; "Line No."; Integer)
@@ -25,12 +24,6 @@ table 50103 "Rest. Order Line"
         field(3; "Name"; Text[50])
         {
             Caption = 'Name';
-            TableRelation = Item.Description;
-            trigger OnValidate()
-            begin
-                UpdateInfoByName();
-                UpdateAmounts();
-            end;
         }
 
         field(4; "Quantity"; Integer)
@@ -55,7 +48,6 @@ table 50103 "Rest. Order Line"
         {
             Caption = 'Line Amount';
             Editable = false;
-            FieldClass = Normal;
         }
 
         field(7; "Item No."; Code[20])
@@ -65,7 +57,6 @@ table 50103 "Rest. Order Line"
             trigger OnValidate()
             begin
                 UpdateInfoByItemNo();
-                UpdateAmounts();
             end;
         }
     }
@@ -81,15 +72,16 @@ table 50103 "Rest. Order Line"
     trigger OnInsert()
     var
         LastRecord: Record "Rest. Order Line";
-        "No": Record "Rest. Order Header";
+        NoRest: Record "Rest. Order Header";
     begin
-        if Rec."Line No." = 0 then begin
-            if LastRecord.FINDLAST then
-                Rec."Line No." := LastRecord."Line No.";
-            rec."Line No." += 10000;
+        //přidat filtraci
+        if NoRest."No." = "Rest. Order No." then begin
+            if Rec."Line No." = 0 then begin
+                if LastRecord.FINDLAST then
+                    Rec."Line No." := LastRecord."Line No.";
+                rec."Line No." += 10000;
+            end;
         end;
-        if "No"."No." <> '' then
-            Rec."Rest. Order No." := "No"."No.";
     end;
 
     /// <summary>
@@ -97,33 +89,22 @@ table 50103 "Rest. Order Line"
     /// </summary>
     procedure UpdateInfoByItemNo()
     var
-        ItemRecord: Record Item;
+        Item: Record Item;
     begin
-        if ItemRecord.GET(Rec."Item No.") then begin
-            Rec."Unit Price" := ItemRecord."Unit Price";
-            Rec."Name" := ItemRecord.Description;
+        if Item.GET(Rec."Item No.") then begin
+            Rec."Name" := Item.Description;
+            Rec.Validate("Unit Price", Item."Unit Price");
+        end
+        else begin
+            Rec."Name" := '';
+            Rec.Validate("Unit Price", 0);
         end;
     end;
 
-    /// <summary>
-    /// UpdateInfoByName.
-    /// </summary>
-    procedure UpdateInfoByName()
-    var
-        itemRecord: Record Item;
-    begin
-        itemRecord.SetRange("Description", Rec.Name);
-        if itemRecord.FindFirst() then begin
-            Rec."Unit Price" := itemRecord."Unit Price";
-            Rec."Item No." := ItemRecord."No.";
-        end;
-
-
-    end;
     /// <summary>
     /// Update Line Amount.
     /// </summary>
-    procedure "Updateamounts"()
+    procedure "UpdateAmounts"()
     begin
         Rec."Line Amount" := Rec."Quantity" * Rec."Unit Price";
     end;

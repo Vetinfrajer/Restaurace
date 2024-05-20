@@ -7,7 +7,6 @@ page 50105 "Restaurant Tables"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Restaurant Table";
-    CardPageId = "Restaurant Tables Card";
 
     layout
     {

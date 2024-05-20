@@ -24,6 +24,7 @@ table 50104 "Restaurant Setup"
         field(3; "Restaurant Order Nos."; Code[20])
         {
             Caption = 'Restaurant Order Nos.';
+            TableRelation = "No. Series".Code;
         }
     }
     keys

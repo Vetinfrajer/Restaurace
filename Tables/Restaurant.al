@@ -27,9 +27,9 @@ table 50101 Restaurant
         field(3; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
+            TableRelation = "No. Series".Code;
         }
     }
-
 
     keys
     {
@@ -38,6 +38,7 @@ table 50101 Restaurant
             Clustered = true;
         }
     }
+
 
     // Lokální procedura pro testování číselné řady
     local procedure TestNoSeries()
@@ -52,12 +53,11 @@ table 50101 Restaurant
         if IsHandled then
             exit;
 
-        if Rec."No." <> xRec."No." then
-            if not Restaurant.Get(Rec."No.") then begin
-                RestaurantSetup.Get();
-                NoSeriesMgt.TestManual(RestaurantSetup."Restaurant Nos.");
-                Rec."No. Series" := '';
-            end;
+        if Rec."No." <> xRec."No." then begin
+            RestaurantSetup.Get();
+            NoSeriesMgt.TestManual(RestaurantSetup."Restaurant Nos.");
+            Rec."No. Series" := '';
+        end;
     end;
 
     // Lokální procedura pro událost před testem číselné řady
@@ -66,13 +66,12 @@ table 50101 Restaurant
     begin
     end;
 
-
     /// <summary>
     /// AssistEdit.
     /// </summary>
-    /// <param name="OldCust">Record Customer.</param>
+    /// <param name="OldRestaurant">Record Restaurant.</param>
     /// <returns>Return value of type Boolean.</returns>
-    procedure AssistEdit(OldCust: Record Restaurant): Boolean
+    procedure AssistEdit(OldRestaurant: Record Restaurant): Boolean
     var
         NoSeriesMgt: Codeunit NoSeriesManagement;
         RestaurantSetup: Record "Restaurant Setup";
@@ -80,7 +79,7 @@ table 50101 Restaurant
     begin
         RestaurantSetup.Get();
         RestaurantSetup.TestField("Restaurant Nos.");
-        if NoSeriesMgt.SelectSeries(RestaurantSetup."Restaurant Nos.", OldCust."No. Series", "No. Series") then begin
+        if NoSeriesMgt.SelectSeries(RestaurantSetup."Restaurant Nos.", OldRestaurant."No. Series", "No. Series") then begin
             NoSeriesMgt.SetSeries("No.");
             exit(true);
         end;

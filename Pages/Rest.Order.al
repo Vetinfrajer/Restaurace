@@ -34,23 +34,20 @@ page 50110 "Rest. Order"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. No. field.';
                 }
-                field("No. Series"; Rec."No. Series")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the No. Series field.';
-                }
                 field("Amount"; Rec."Amount")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Amount field.';
                 }
             }
             part("Lines"; "Restaurant Order Subpage")
             {
                 ApplicationArea = All;
                 UpdatePropagation = Both;
-                SubPageLink
+                //SubPageLink = "Restaurant Order Subpage";
 
             }
         }
     }
 }
+

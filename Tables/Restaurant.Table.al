@@ -10,7 +10,7 @@ table 50149 "Restaurant Table"
 
     fields
     {
-        field(1; "Rest. No."; Integer)
+        field(1; "Rest. No."; Code[20])
         {
             DataClassification = CustomerContent;
             Caption = 'Rest. No.';
