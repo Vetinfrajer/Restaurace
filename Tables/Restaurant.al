@@ -29,6 +29,18 @@ table 50101 Restaurant
             Caption = 'No. Series';
             TableRelation = "No. Series".Code;
         }
+        field(4; Amount; Decimal)
+        {
+            Caption = 'Amount';
+            Editable = false;
+            trigger OnValidate()
+            var
+                RestOrderHdr: Record "Rest. Order Header";
+            begin
+                if RestOrderHdr."Rest. No." = Rec."No." then
+                    Rec.Amount := RestOrderHdr.Amount;
+            end;
+        }
     }
 
     keys

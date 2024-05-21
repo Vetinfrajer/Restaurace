@@ -25,10 +25,10 @@ page 50107 "Restaurant List"
                     ApplicationArea = All;
                     ToolTip = 'Name';
                 }
-                field("No. Series"; Rec."No. Series")
+                field("Amount"; Rec."Amount")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'No. Series';
+                    ToolTip = 'Specifies the value of the Amount field.';
                 }
             }
         }

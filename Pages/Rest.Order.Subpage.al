@@ -75,4 +75,16 @@ page 50112 "Restaurant Order Subpage"
             }
         }
     }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="OrderCode"></param>
+    procedure SetOrderCodeFilter(OrderCode: Code[20])
+    begin
+        if OrderCode <> '' then
+            Rec.SetRange("Rest. Order No.", OrderCode)
+        else
+            Rec.SetRange("Rest. Order No."); // Clear filter
+        CurrPage.Update(false);
+    end;
 }

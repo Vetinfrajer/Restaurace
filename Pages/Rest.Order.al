@@ -44,10 +44,10 @@ page 50110 "Rest. Order"
             {
                 ApplicationArea = All;
                 UpdatePropagation = Both;
-                //SubPageLink = "Restaurant Order Subpage";
-
+                SubPageLink = "Rest. Order No." = FIELD("No.");
             }
         }
     }
+
 }
 

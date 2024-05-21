@@ -73,7 +73,9 @@ table 50103 "Rest. Order Line"
     var
         LastRecord: Record "Rest. Order Line";
         NoRest: Record "Rest. Order Header";
+
     begin
+
         //přidat filtraci
         if NoRest."No." = "Rest. Order No." then begin
             if Rec."Line No." = 0 then begin
