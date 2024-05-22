@@ -31,6 +31,7 @@ table 50101 Restaurant
         }
         field(4; Amount; Decimal)
         {
+            //chyba
             Caption = 'Amount';
             Editable = false;
             FieldClass = FlowField;
@@ -43,7 +44,7 @@ table 50101 Restaurant
             Caption = 'Count';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Count("Rest. Order Line" where
+            CalcFormula = Count("Rest. Order header" where
                 ("Rest. No." = field("No."))
             );
         }

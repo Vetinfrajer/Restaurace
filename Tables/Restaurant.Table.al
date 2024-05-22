@@ -32,7 +32,9 @@ table 50149 "Restaurant Table"
             Caption = 'Count';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Count("Rest. Order Header" where("Rest. Table Code" = field("Code")));
+            CalcFormula = Count("Rest. Order Header"
+                where("Rest. Table Code" = field("Code"))
+            );
         }
         field(6; "Rest. Order Amount"; Decimal)
         {
@@ -40,7 +42,8 @@ table 50149 "Restaurant Table"
             Editable = false;
             FieldClass = FlowField;
             CalcFormula = Sum("Rest. Order Line"."Line Amount"
-            where("Rest. Table Code" = field("Code")));
+                where("Rest. Table Code" = field("Code"))
+            );
         }
     }
 

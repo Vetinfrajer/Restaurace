@@ -39,6 +39,11 @@ page 50110 "Rest. Order"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. No. field.';
                 }
+                field("Rest. Name"; Rec."Rest. name")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Rest. Name field.';
+                }
                 field(LineCount; Rec."Line Count")
                 {
                     ApplicationArea = All;

@@ -42,4 +42,17 @@ page 50106 "Restaurant Card"
 
         }
     }
+    actions
+    {
+        area(Processing)
+        {
+            action("OpenRestaurantTables")
+            {
+                Caption = 'Open Restaurant Tables';
+                ApplicationArea = All;
+                RunObject = Page "Restaurant Tables";
+                //RunPageView = "Rest. No." = Field("No.");
+            }
+        }
+    }
 }

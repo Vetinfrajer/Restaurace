@@ -54,6 +54,7 @@ table 50102 "Rest. Order Header"
                 if Rec."Rest. Table Code" <> xRec."Rest. Table Code" then begin
                     RestOrderLine.SetRange("Rest. Order No.", "No.");
                     RestOrderLine.ModifyAll("Rest. Table Code", Rec."Rest. Table Code");
+
                     /*
                     toto řešení je pro více proměných
                 if RestOrderLine.FindSet(true) then begin
@@ -63,21 +64,33 @@ table 50102 "Rest. Order Header"
                     until RestOrderLine.Next() = 0;
                 end;*/
                 end;
-
-
             end;
         }
         field(5; "Rest. No."; Code[20])
         {
             Caption = 'Rest. No.';
             TableRelation = "Restaurant"."No.";
+            trigger OnValidate()
+            var
+                Restaurant: Record Restaurant;
+            begin
+                if Restaurant.Get("Customer No.") then
+                    "Rest. Name" := Restaurant.Name
+                else
+                    "Rest. Name" := '';
+            end;
         }
-        field(6; "No. Series"; Code[20])
+        field(6; "Rest. name"; Text[100])
+        {
+            Caption = 'Rest. name';
+            Editable = false;
+        }
+        field(7; "No. Series"; Code[20])
         {
             Caption = 'No. Series';
             TableRelation = "No. Series";
         }
-        field(7; "Amount"; Decimal)
+        field(8; "Amount"; Decimal)
         {
             Caption = 'Amount';
             Editable = false;
@@ -86,7 +99,7 @@ table 50102 "Rest. Order Header"
                 ("Rest. Order No." = field("No."))
             );
         }
-        field(8; "Line Count"; Integer)
+        field(9; "Line Count"; Integer)
         {
             Caption = 'Line Count';
             Editable = false;
