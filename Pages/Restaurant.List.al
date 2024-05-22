@@ -18,18 +18,35 @@ page 50107 "Restaurant List"
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Rest No.';
+                    ToolTip = 'Specifies the value of the No. field.';
                 }
                 field(Name; Rec.Name)
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Name';
+                    ToolTip = 'Specifies the value of the Name field.';
+                }
+                field(Count; Rec.Count)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Count field.';
                 }
                 field("Amount"; Rec."Amount")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Amount field.';
                 }
+            }
+        }
+    }
+    actions
+    {
+        area(Processing)
+        {
+            action("OpenRestaurantTables")
+            {
+                Caption = 'Open Restaurant Tables';
+                ApplicationArea = All;
+                RunObject = Page "Restaurant Tables";
             }
         }
     }

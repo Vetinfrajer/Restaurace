@@ -59,32 +59,35 @@ table 50103 "Rest. Order Line"
                 UpdateInfoByItemNo();
             end;
         }
+        field(8; "Rest. Table Code"; Code[20])
+        {
+            Caption = 'Table No.';
+        }
+        field(9; "Rest. No."; Code[20])
+        {
+            Caption = 'Rest. No.';
+        }
     }
 
 
     keys
     {
-        key(PK; "Line No.")
+        key(PK; "Rest. Order No.", "Line No.")
         {
             Clustered = true;
         }
     }
     trigger OnInsert()
     var
-        LastRecord: Record "Rest. Order Line";
-        NoRest: Record "Rest. Order Header";
-
+        RestOrderLine: Record "Rest. Order Line";
     begin
+        RestOrderLine.SetRange("Rest. Order No.", Rec."Rest. Order No.");
 
-        //přidat filtraci
-        if NoRest."No." = "Rest. Order No." then begin
-            if Rec."Line No." = 0 then begin
-                if LastRecord.FINDLAST then
-                    Rec."Line No." := LastRecord."Line No.";
-                rec."Line No." += 10000;
-            end;
-        end;
+        if RestOrderLine.FindLast then
+            Rec."Line No." := RestOrderLine."Line No.";
+        Rec."Line No." += 10000;
     end;
+
 
     /// <summary>
     /// UpdateInfoByItemNo.

@@ -26,12 +26,17 @@ page 50106 "Restaurant Card"
                 field("Name"; Rec."Name")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Name';
+                    ToolTip = 'Specifies the value of the Name field.';
                 }
-                field("No. Series"; Rec."No. Series")
+                field(count; Rec.count)
                 {
                     ApplicationArea = All;
-                    ToolTip = 'No. Series';
+                    ToolTip = 'Specifies the value of the Count field.';
+                }
+                field(Amount; Rec.Amount)
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Amount field.';
                 }
             }
 

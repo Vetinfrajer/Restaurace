@@ -24,6 +24,11 @@ page 50110 "Rest. Order"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Customer No. field.';
                 }
+                field("Customer Name"; Rec."Customer Name")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Customer Name field.';
+                }
                 field("Rest. Table Code"; Rec."Rest. Table Code")
                 {
                     ApplicationArea = All;
@@ -33,6 +38,11 @@ page 50110 "Rest. Order"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. No. field.';
+                }
+                field(LineCount; Rec."Line Count")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Line Count field.';
                 }
                 field("Amount"; Rec."Amount")
                 {

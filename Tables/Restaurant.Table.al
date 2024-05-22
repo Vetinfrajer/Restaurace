@@ -12,34 +12,43 @@ table 50149 "Restaurant Table"
     {
         field(1; "Rest. No."; Code[20])
         {
-            DataClassification = CustomerContent;
             Caption = 'Rest. No.';
             TableRelation = "Restaurant"."No.";
         }
-        field(2; Code; Code[20])
+        field(2; "Code"; Code[20])
         {
-            DataClassification = CustomerContent;
             Caption = 'Code';
         }
         field(3; "Number Seats"; Integer)
         {
-            DataClassification = CustomerContent;
             Caption = 'Number of Seats';
         }
-        field(4; Name; Text[50])
+        field(4; "Name"; Text[50])
         {
-            DataClassification = CustomerContent;
             Caption = 'Name';
+        }
+        field(5; "Rest. Order Count"; Integer)
+        {
+            Caption = 'Count';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = Count("Rest. Order Header" where("Rest. Table Code" = field("Code")));
+        }
+        field(6; "Rest. Order Amount"; Decimal)
+        {
+            Caption = 'Amount';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = Sum("Rest. Order Line"."Line Amount"
+            where("Rest. Table Code" = field("Code")));
         }
     }
 
     keys
     {
-        key(PK; Code)
+        key(PK; "Code")
         {
             Clustered = true;
         }
     }
-
-
 }

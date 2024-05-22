@@ -7,7 +7,7 @@ page 50112 "Restaurant Order Subpage"
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "rest. order line";
-
+    AutoSplitKey = true;
 
     layout
     {
@@ -25,19 +25,6 @@ page 50112 "Restaurant Order Subpage"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Name field.';
                 }
-                field("Rest. Order No."; Rec."Rest. Order No.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Rest. Order No. field.';
-
-
-                }
-                field("Line No."; Rec."Line No.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Line No. field.';
-
-                }
                 field("Quantity"; Rec."Quantity")
                 {
                     ApplicationArea = All;
@@ -53,38 +40,7 @@ page 50112 "Restaurant Order Subpage"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Line Amount field.';
                 }
-
-
-            }
-        }
-
-    }
-    //akce na otevření stolů
-    actions
-    {
-        area(Processing)
-        {
-            action(OpenTables)
-            {
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    //OpenPage(Page::"Restaurant Tables");
-                end;
             }
         }
     }
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="OrderCode"></param>
-    procedure SetOrderCodeFilter(OrderCode: Code[20])
-    begin
-        if OrderCode <> '' then
-            Rec.SetRange("Rest. Order No.", OrderCode)
-        else
-            Rec.SetRange("Rest. Order No."); // Clear filter
-        CurrPage.Update(false);
-    end;
 }

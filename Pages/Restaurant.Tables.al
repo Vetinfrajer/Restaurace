@@ -5,7 +5,7 @@ page 50105 "Restaurant Tables"
 {
     PageType = List;
     ApplicationArea = All;
-    UsageCategory = Administration;
+    UsageCategory = none;
     SourceTable = "Restaurant Table";
 
     layout
@@ -28,6 +28,16 @@ page 50105 "Restaurant Tables"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Name field.';
+                }
+                field(RestOrderCount; Rec."Rest. Order Count")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Count field.';
+                }
+                field(RestOrderAmount; Rec."Rest. Order Amount")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Amount field.';
                 }
                 field("Rest. No."; Rec."Rest. No.")
                 {

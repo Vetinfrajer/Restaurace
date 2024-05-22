@@ -33,13 +33,19 @@ table 50101 Restaurant
         {
             Caption = 'Amount';
             Editable = false;
-            trigger OnValidate()
-            var
-                RestOrderHdr: Record "Rest. Order Header";
-            begin
-                if RestOrderHdr."Rest. No." = Rec."No." then
-                    Rec.Amount := RestOrderHdr.Amount;
-            end;
+            FieldClass = FlowField;
+            CalcFormula = Sum("Rest. Order Line"."Line Amount" where
+                ("Rest. No." = field("No."))
+            );
+        }
+        field(5; Count; Integer)
+        {
+            Caption = 'Count';
+            Editable = false;
+            FieldClass = FlowField;
+            CalcFormula = Count("Rest. Order Line" where
+                ("Rest. No." = field("No."))
+            );
         }
     }
 
@@ -51,8 +57,9 @@ table 50101 Restaurant
         }
     }
 
-
-    // Lokální procedura pro testování číselné řady
+    /// <summary>
+    /// TestNoSeries.
+    /// </summary>
     local procedure TestNoSeries()
     var
         Restaurant: Record Restaurant;
