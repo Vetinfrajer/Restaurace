@@ -39,6 +39,8 @@ table 50101 Restaurant
                 ("Rest. No." = field("No."))
             );
         }
+
+
         field(5; Count; Integer)
         {
             Caption = 'Count';

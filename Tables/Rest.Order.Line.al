@@ -66,6 +66,7 @@ table 50103 "Rest. Order Line"
         field(9; "Rest. No."; Code[20])
         {
             Caption = 'Rest. No.';
+
         }
     }
 
@@ -82,9 +83,11 @@ table 50103 "Rest. Order Line"
         RestOrderLine: Record "Rest. Order Line";
     begin
         RestOrderLine.SetRange("Rest. Order No.", Rec."Rest. Order No.");
-
-        if RestOrderLine.FindLast then
-            Rec."Line No." := RestOrderLine."Line No.";
+        if Rec."Line No." = 0 then
+            Rec."Line No." := 10000
+        else
+            if RestOrderLine.FindLast then
+                Rec."Line No." := RestOrderLine."Line No.";
         Rec."Line No." += 10000;
     end;
 

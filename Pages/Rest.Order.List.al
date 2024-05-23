@@ -36,6 +36,11 @@ page 50111 "Rest. Order List"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Customer Name field.';
                 }
+                field("Restaurant name"; Rec."Rest. name")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Rest. name field.';
+                }
                 field("Amount"; Rec.Amount)
                 {
                     ApplicationArea = All;

@@ -18,6 +18,10 @@ page 50110 "Rest. Order"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the No. field.';
+                    trigger OnAssistEdit()
+                    begin
+                        Rec.AssistEdit(xRec);
+                    end;
                 }
                 field("Customer No."; Rec."Customer No.")
                 {

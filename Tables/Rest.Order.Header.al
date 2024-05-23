@@ -15,13 +15,8 @@ table 50102 "Rest. Order Header"
         {
             Caption = 'No.';
             trigger OnValidate()
-            var
-                NoSeries: Record Restaurant;
             begin
-                if NoSeries.Get("No.") then
-                    "No. Series" := NoSeries."No. Series"
-                else
-                    "No. Series" := '';
+                TestNoSeries();
             end;
         }
         field(2; "Customer No."; Code[20])
@@ -32,10 +27,11 @@ table 50102 "Rest. Order Header"
             var
                 CustomerRec: Record Customer;
             begin
-                if CustomerRec.Get("Customer No.") then
-                    "Customer Name" := CustomerRec.Name
-                else
-                    "Customer Name" := '';
+                if "Customer No." <> xRec."Customer No." then
+                    if CustomerRec.Get("Customer No.") then
+                        "Customer Name" := CustomerRec.Name
+                    else
+                        "Customer Name" := '';
             end;
         }
         field(3; "Customer Name"; Text[100])
@@ -46,7 +42,10 @@ table 50102 "Rest. Order Header"
         field(4; "Rest. Table Code"; Code[20])
         {
             Caption = 'Rest. Table Code';
-            TableRelation = "Restaurant Table"."Code" WHERE("Rest. No." = FIELD("Rest. No."));
+            TableRelation = "Restaurant Table"."Code"
+                WHERE("Rest. No." = FIELD("Rest. No.")
+            );
+
             trigger OnValidate()
             var
                 RestOrderLine: Record "Rest. Order Line";
@@ -54,7 +53,6 @@ table 50102 "Rest. Order Header"
                 if Rec."Rest. Table Code" <> xRec."Rest. Table Code" then begin
                     RestOrderLine.SetRange("Rest. Order No.", "No.");
                     RestOrderLine.ModifyAll("Rest. Table Code", Rec."Rest. Table Code");
-
                     /*
                     toto řešení je pro více proměných
                 if RestOrderLine.FindSet(true) then begin
@@ -73,11 +71,18 @@ table 50102 "Rest. Order Header"
             trigger OnValidate()
             var
                 Restaurant: Record Restaurant;
+                RestOrderLine: Record "Rest. Order Line";
             begin
-                if Restaurant.Get("Customer No.") then
-                    "Rest. Name" := Restaurant.Name
-                else
-                    "Rest. Name" := '';
+                if "Rest. No." <> xRec."Rest. No." then
+                    if Restaurant.Get("Rest. No.") then
+                        "Rest. Name" := Restaurant.Name
+                    else
+                        "Rest. Name" := '';
+
+                if "Rest. No." <> xRec."Rest. No." then begin
+                    RestOrderLine.SetRange("Rest. Order No.", "No.");
+                    RestOrderLine.ModifyAll("Rest. No.", "Rest. No.");
+                end;
             end;
         }
         field(6; "Rest. name"; Text[100])
@@ -117,4 +122,60 @@ table 50102 "Rest. Order Header"
             Clustered = true;
         }
     }
+
+    local procedure TestNoSeries()
+    var
+        IsHandled: Boolean;
+        RestaurantSetup: Record "Restaurant Setup";
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+    begin
+        IsHandled := false;
+        OnBeforeTestNoSeries(Rec, xRec, IsHandled);
+        if IsHandled then
+            exit;
+
+        if Rec."No." <> xRec."No." then begin
+            RestaurantSetup.Get();
+            NoSeriesMgt.TestManual(RestaurantSetup."Restaurant Order Nos.");
+            Rec."No. Series" := '';
+        end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeTestNoSeries(var Restaurant: Record "Rest. Order Header"; xRestaurant: Record "Rest. Order Header"; var IsHandled: Boolean)
+    begin
+    end;
+
+    /// <summary>
+    /// AssistEdit.
+    /// </summary>
+    /// <param name="OldHeader">Record "Rest. Order Header".</param>
+    /// <returns>Return value of type Boolean.</returns>
+    procedure AssistEdit(OldHeader: Record "Rest. Order Header"): Boolean
+    var
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        RestaurantSetup: Record "Restaurant Setup";
+    begin
+        RestaurantSetup.Get();
+        RestaurantSetup.TestField("Restaurant Order Nos.");
+        if NoSeriesMgt.SelectSeries(RestaurantSetup."Restaurant Order Nos.", OldHeader."No. Series", "No. Series")
+        then begin
+            NoSeriesMgt.SetSeries("No.");
+            exit(true);
+        end;
+    end;
+
+    trigger OnInsert()
+    var
+        IsHandled: Boolean;
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        RestaurantSetup: Record "Restaurant Setup";
+    begin
+        if "No." = '' then begin
+            RestaurantSetup.Get();
+            RestaurantSetup.TestField("Restaurant Order Nos.");
+            NoSeriesMgt.InitSeries(RestaurantSetup."Restaurant Order Nos.", xRec."No. Series", 0D, "No.", "No. Series");
+        end;
+    end;
 }
+
