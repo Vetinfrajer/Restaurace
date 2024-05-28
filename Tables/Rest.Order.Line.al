@@ -84,6 +84,10 @@ table 50103 "Rest. Order Line"
             Caption = 'Line amount';
             Editable = false;
         }
+        field(13; "Customer No."; Code[20])
+        {
+            Caption = 'Customer No.';
+        }
     }
     keys
     {
@@ -95,6 +99,7 @@ table 50103 "Rest. Order Line"
     trigger OnInsert()
     var
         RestOrderLine: Record "Rest. Order Line";
+        RestOrderHeader: Record "Rest. Order Header";
     begin
         RestOrderLine.SetRange("Rest. Order No.", Rec."Rest. Order No.");
         if Rec."Line No." = 0 then
@@ -103,6 +108,13 @@ table 50103 "Rest. Order Line"
             if RestOrderLine.FindLast then
                 Rec."Line No." := RestOrderLine."Line No.";
         Rec."Line No." += 10000;
+
+        if RestOrderHeader.GET(Rec."Rest. Order No.") then
+            Rec."Customer No." := RestOrderHeader."Customer No.";
+        if RestOrderHeader."Rest. No." <> Rec."Rest. No." then
+            Rec."Rest. No." := RestOrderHeader."Rest. No.";
+        if RestOrderHeader."Rest. Table Code" <> Rec."Rest. Table Code" then
+            Rec."Rest. Table Code" := RestOrderHeader."Rest. Table Code";
     end;
 
 

@@ -39,7 +39,14 @@ page 50106 "Restaurant Card"
                     ToolTip = 'Specifies the value of the Amount field.';
                 }
             }
-
+        }
+        area(FactBoxes)
+        {
+            part(CustomerList; "Customer Details FactBox")
+            {
+                ApplicationArea = All;
+                SubPageLink = "No." = FIELD("No.");
+            }
         }
     }
     actions

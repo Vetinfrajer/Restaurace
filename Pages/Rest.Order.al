@@ -33,15 +33,15 @@ page 50110 "Rest. Order"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Customer Name field.';
                 }
-                field("Rest. Table Code"; Rec."Rest. Table Code")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Rest. Table Code field.';
-                }
                 field("Rest. No."; Rec."Rest. No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. No. field.';
+                }
+                field("Rest. Table Code"; Rec."Rest. Table Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Rest. Table Code field.';
                 }
                 field("Rest. Name"; Rec."Rest. name")
                 {
@@ -58,10 +58,10 @@ page 50110 "Rest. Order"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Amount field.';
                 }
-                field("Release"; Rec."Release")
+                field("Release"; Rec."Closed")
                 {
                     ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Release field.';
+                    ToolTip = 'Specifies the value of the Closed field.';
                 }
             }
             part("Lines"; "Restaurant Order Subpage")
@@ -80,10 +80,9 @@ page 50110 "Rest. Order"
             {
                 Caption = 'Release';
                 ApplicationArea = All;
-                RunObject = Page "Rest. Order List";
                 trigger OnAction()
                 begin
-                    Rec.Release := true;
+                    Rec.Closed := true;
                     Rec.Modify();
                 end;
             }
@@ -91,10 +90,9 @@ page 50110 "Rest. Order"
             {
                 Caption = 'Open';
                 ApplicationArea = All;
-                RunObject = Page "Rest. Order List";
                 trigger OnAction()
                 begin
-                    Rec.Release := false;
+                    Rec.Closed := false;
                     Rec.Modify();
                 end;
             }
@@ -102,7 +100,7 @@ page 50110 "Rest. Order"
     }
     trigger OnOpenPage()
     begin
-        Rec.Release := false;
+        Rec.Closed := false;
     end;
 }
 

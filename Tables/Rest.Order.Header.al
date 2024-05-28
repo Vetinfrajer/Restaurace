@@ -26,12 +26,18 @@ table 50102 "Rest. Order Header"
             trigger OnValidate()
             var
                 CustomerRec: Record Customer;
+                RestOrderLine: Record "Rest. Order Line";
             begin
                 if "Customer No." <> xRec."Customer No." then
                     if CustomerRec.Get("Customer No.") then
                         "Customer Name" := CustomerRec.Name
                     else
                         "Customer Name" := '';
+
+                if Rec."Customer No." <> xRec."Customer No." then begin
+                    RestOrderLine.SetRange("Customer No.", "Customer No.");
+                    RestOrderLine.ModifyAll("Customer No.", Rec."Customer No.");
+                end;
             end;
         }
         field(3; "Customer Name"; Text[100])
@@ -113,12 +119,11 @@ table 50102 "Rest. Order Header"
                 ("Rest. Order No." = field("No."))
             );
         }
-        field(10; "Release"; boolean)
+        field(10; "Closed"; boolean)
         {
             Caption = 'Release';
             Editable = false;
         }
-
     }
     keys
     {

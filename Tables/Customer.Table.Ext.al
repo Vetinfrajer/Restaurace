@@ -1,7 +1,7 @@
 /// <summary>
 /// TableExtension MyExtension (ID 50144) extends Record Customer.
 /// </summary>
-tableextension 50144 "Cu" extends Customer
+tableextension 50144 "Customer Table Ext." extends Customer
 {
     fields
     {
@@ -16,30 +16,10 @@ tableextension 50144 "Cu" extends Customer
         field(1001; "Rest Order Amount"; Decimal)
         {
             Caption = 'Rest Order Amount';
-            //FieldClass = FlowField;
-            // CalcFormula = sum("Rest. Order Line"."Total Amount" where
-            //())
+            FieldClass = FlowField;
+            CalcFormula = sum("Rest. Order Line"."Total Amount" where
+            ("Customer No." = field("No."))
+            );
         }
     }
-
-    keys
-    {
-    }
-    /// <summary>
-    /// GetCount.
-    /// </summary>
-    procedure UpdateCount()
-    var
-        Customer: Record Customer;
-        RestaurantHeader: Record "Rest. Order Header";
-    begin
-        if RestaurantHeader.FindSet() then begin
-            repeat
-                if RestaurantHeader.Get(RestaurantHeader."Customer No.") then begin
-                    Customer."Rest Order Count" := RestaurantHeader.Count;
-                    Customer.Modify();
-                end;
-            until RestaurantHeader.Next() = 0;
-        end;
-    end;
 }
