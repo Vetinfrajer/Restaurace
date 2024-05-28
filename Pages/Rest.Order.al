@@ -58,6 +58,11 @@ page 50110 "Rest. Order"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Amount field.';
                 }
+                field("Release"; Rec."Release")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Release field.';
+                }
             }
             part("Lines"; "Restaurant Order Subpage")
             {
@@ -67,6 +72,37 @@ page 50110 "Rest. Order"
             }
         }
     }
-
+    actions
+    {
+        area(Processing)
+        {
+            action("Close")
+            {
+                Caption = 'Release';
+                ApplicationArea = All;
+                RunObject = Page "Rest. Order List";
+                trigger OnAction()
+                begin
+                    Rec.Release := true;
+                    Rec.Modify();
+                end;
+            }
+            action("ReOpen")
+            {
+                Caption = 'Open';
+                ApplicationArea = All;
+                RunObject = Page "Rest. Order List";
+                trigger OnAction()
+                begin
+                    Rec.Release := false;
+                    Rec.Modify();
+                end;
+            }
+        }
+    }
+    trigger OnOpenPage()
+    begin
+        Rec.Release := false;
+    end;
 }
 

@@ -31,6 +31,11 @@ page 50111 "Rest. Order List"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Customer No. field.';
                 }
+                field("Table Code"; Rec."Rest. Table Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Rest. Table Code field.';
+                }
                 field("Customer Name"; Rec."Customer Name")
                 {
                     ApplicationArea = All;

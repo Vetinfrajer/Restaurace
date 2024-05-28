@@ -35,10 +35,26 @@ page 50112 "Restaurant Order Subpage"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Unit Price field.';
                 }
+                field("Discount %"; Rec."Discount %")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Discount % field.';
+                }
+
                 field("Line Amount"; Rec."Line Amount")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Line Amount field.';
+                }
+                field("Total Amount"; Rec."Total Amount")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Total Amount field.';
+                }
+                field("Discount amount"; Rec."Discount amount")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Discount amount field.';
                 }
             }
         }

@@ -100,7 +100,7 @@ table 50102 "Rest. Order Header"
             Caption = 'Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Sum("Rest. Order Line"."Line Amount" where
+            CalcFormula = Sum("Rest. Order Line"."Total Amount" where
                 ("Rest. Order No." = field("No."))
             );
         }
@@ -113,6 +113,11 @@ table 50102 "Rest. Order Header"
                 ("Rest. Order No." = field("No."))
             );
         }
+        field(10; "Release"; boolean)
+        {
+            Caption = 'Release';
+            Editable = false;
+        }
 
     }
     keys
@@ -122,6 +127,16 @@ table 50102 "Rest. Order Header"
             Clustered = true;
         }
     }
+    trigger OnDelete()
+    var
+        RestOrderLine: Record "Rest. Order Line";
+    begin
+        RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
+        if RestOrderLine.FindSet(true) then
+            repeat
+                RestOrderLine.Delete(true);
+            until RestOrderLine.Next() = 0;
+    end;
 
     local procedure TestNoSeries()
     var

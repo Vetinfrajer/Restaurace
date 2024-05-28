@@ -44,22 +44,17 @@ page 50106 "Restaurant Card"
     }
     actions
     {
-        area(Processing)
+        area(Navigation)
         {
 
-            action("OpenRestaurantTables")
+            action("RestaurantTables")
             {
-                Caption = 'Open Restaurant Tables';
+                Caption = 'Restaurant Tables';
                 ApplicationArea = All;
-                trigger OnAction()
-                var
-                    RestaurantTablesPage: Page "Restaurant Tables";
-                    RestaurantTablesRec: Record "Restaurant Table";
-                begin
-                    RestaurantTablesRec.SetRange("Rest. No.", Rec."No.");
-                    RestaurantTablesPage.SetTableView(RestaurantTablesRec);
-                    RestaurantTablesPage.RUNMODAL;
-                end;
+                RunObject = Page "Restaurant Tables";
+                RunPageView = sorting(Code) order(ascending);
+                RunPageLink = "Rest. No." = field("No.");
+                RunPageMode = Edit;
             }
         }
     }

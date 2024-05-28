@@ -41,7 +41,7 @@ table 50149 "Restaurant Table"
             Caption = 'Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Sum("Rest. Order Line"."Line Amount"
+            CalcFormula = Sum("Rest. Order Line"."Total Amount"
                 where("Rest. Table Code" = field("Code"))
             );
         }

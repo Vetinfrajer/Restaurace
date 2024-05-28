@@ -31,16 +31,13 @@ table 50101 Restaurant
         }
         field(4; Amount; Decimal)
         {
-            //chyba
             Caption = 'Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Sum("Rest. Order Line"."Line Amount" where
+            CalcFormula = Sum("Rest. Order Line"."Total Amount" where
                 ("Rest. No." = field("No."))
             );
         }
-
-
         field(5; Count; Integer)
         {
             Caption = 'Count';

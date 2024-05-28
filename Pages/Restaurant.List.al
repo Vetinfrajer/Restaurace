@@ -42,12 +42,16 @@ page 50107 "Restaurant List"
     {
         area(Processing)
         {
-            action("OpenRestaurantTables")
+            action("RestaurantTables")
             {
-                Caption = 'Open Restaurant Tables';
+                Caption = 'Restaurant Tables';
                 ApplicationArea = All;
                 RunObject = Page "Restaurant Tables";
+                RunPageView = sorting(Code) order(ascending);
+                RunPageLink = "Rest. No." = field("No.");
+                RunPageMode = Edit;
             }
+
         }
     }
 }

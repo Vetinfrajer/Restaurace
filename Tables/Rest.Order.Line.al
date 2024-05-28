@@ -44,9 +44,9 @@ table 50103 "Rest. Order Line"
             end;
         }
 
-        field(6; "Line Amount"; Decimal)
+        field(6; "Total Amount"; Decimal)
         {
-            Caption = 'Line Amount';
+            Caption = 'Total Amount';
             Editable = false;
         }
 
@@ -66,11 +66,25 @@ table 50103 "Rest. Order Line"
         field(9; "Rest. No."; Code[20])
         {
             Caption = 'Rest. No.';
-
+        }
+        field(10; "Discount %"; Decimal)
+        {
+            Caption = 'Discount';
+            trigger OnValidate()
+            begin
+                UpdateAmounts();
+            end;
+        }
+        field(11; "Discount amount"; Decimal)
+        {
+            Caption = 'Discount amount';
+        }
+        field(12; "Line amount"; Decimal)
+        {
+            Caption = 'Line amount';
+            Editable = false;
         }
     }
-
-
     keys
     {
         key(PK; "Rest. Order No.", "Line No.")
@@ -108,13 +122,34 @@ table 50103 "Rest. Order Line"
             Rec.Validate("Unit Price", 0);
         end;
     end;
-
     /// <summary>
     /// Update Line Amount.
     /// </summary>
-    procedure "UpdateAmounts"()
+    procedure UpdateAmounts()
     begin
-        Rec."Line Amount" := Rec."Quantity" * Rec."Unit Price";
+        if Rec."Quantity" = xRec.Quantity then
+            LineAmount();
+
+        if Rec."Unit Price" <> xRec."Unit Price" then
+            LineAmount();
+
+        if Rec."Discount %" <> xRec."Discount %" then
+            LineAmount();
+
+        if Rec."Discount amount" = 0 then
+            LineAmount()
+        else
+            "Total Amount" := Rec."Line amount" - Rec."Discount amount";
+    end;
+    /// <summary>
+    /// LineAmount.
+    /// </summary>
+    /// <returns>Return value of type begin.</returns>
+    procedure LineAmount()
+    begin
+        Rec."Line amount" := Rec."Quantity" * Rec."Unit Price";
+        Rec."Discount amount" := (Rec."Line amount" / 100) * Rec."Discount %";
+        "Total Amount" := Rec."Line amount"
     end;
 
 
