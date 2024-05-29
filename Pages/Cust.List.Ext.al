@@ -1,7 +1,7 @@
 /// <summary>
 /// PageExtension Cust.List.Ext (ID 50132) extends Record Customer List.
 /// </summary>
-pageextension 50132 "Cust.List.Ext" extends "Customer List"
+pageextension 50132 "Customer List" extends "Customer List"
 {
     layout
     {

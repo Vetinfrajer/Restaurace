@@ -46,5 +46,13 @@ page 50105 "Restaurant Tables"
                 }
             }
         }
+        area(FactBoxes)
+        {
+            part("RestaurantOrderFactBox"; "Restaurant Order FactBox")
+            {
+                ApplicationArea = All;
+                //SubPageLink = Code = FIELD("Code");
+            }
+        }
     }
 }

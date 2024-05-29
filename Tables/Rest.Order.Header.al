@@ -25,17 +25,16 @@ table 50102 "Rest. Order Header"
             TableRelation = "Customer"."No.";
             trigger OnValidate()
             var
-                CustomerRec: Record Customer;
+                Customer: Record Customer;
                 RestOrderLine: Record "Rest. Order Line";
             begin
-                if "Customer No." <> xRec."Customer No." then
-                    if CustomerRec.Get("Customer No.") then
-                        "Customer Name" := CustomerRec.Name
-                    else
-                        "Customer Name" := '';
+                if "Customer No." <> xRec."Customer No." then begin
+                    if not Customer.Get() then
+                        Clear("Customer Name");
 
-                if Rec."Customer No." <> xRec."Customer No." then begin
-                    RestOrderLine.SetRange("Customer No.", "Customer No.");
+                    "Customer Name" := Customer.Name;
+
+                    RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
                     RestOrderLine.ModifyAll("Customer No.", Rec."Customer No.");
                 end;
             end;
@@ -79,13 +78,12 @@ table 50102 "Rest. Order Header"
                 Restaurant: Record Restaurant;
                 RestOrderLine: Record "Rest. Order Line";
             begin
-                if "Rest. No." <> xRec."Rest. No." then
-                    if Restaurant.Get("Rest. No.") then
-                        "Rest. Name" := Restaurant.Name
-                    else
-                        "Rest. Name" := '';
-
                 if "Rest. No." <> xRec."Rest. No." then begin
+                    if not Restaurant.Get() then
+                        Clear("Rest. name");
+
+                    "Rest. Name" := Restaurant.Name;
+
                     RestOrderLine.SetRange("Rest. Order No.", "No.");
                     RestOrderLine.ModifyAll("Rest. No.", "Rest. No.");
                 end;
@@ -123,6 +121,7 @@ table 50102 "Rest. Order Header"
         {
             Caption = 'Release';
             Editable = false;
+
         }
     }
     keys
@@ -136,12 +135,20 @@ table 50102 "Rest. Order Header"
     var
         RestOrderLine: Record "Rest. Order Line";
     begin
-        RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
-        if RestOrderLine.FindSet(true) then
-            repeat
-                RestOrderLine.Delete(true);
-            until RestOrderLine.Next() = 0;
+        if Rec.Closed = true then begin
+            RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
+            RestOrderLine.DeleteAll(true);
+        end
+        else
+            Error('Cannot delete open order');
     end;
+
+    trigger OnModify()
+    begin
+        if Rec.Closed = true then
+            Error('Cannot modify closed order');
+    end;
+
 
     local procedure TestNoSeries()
     var
@@ -196,6 +203,29 @@ table 50102 "Rest. Order Header"
             RestaurantSetup.TestField("Restaurant Order Nos.");
             NoSeriesMgt.InitSeries(RestaurantSetup."Restaurant Order Nos.", xRec."No. Series", 0D, "No.", "No. Series");
         end;
+    end;
+
+    /// <summary>
+    /// Release.
+    /// </summary>
+    procedure Release()
+    begin
+        TestField("Customer No.");
+        TestField("Rest. No.");
+        TestField("Rest. Table Code");
+
+        closed := true;
+        modify();
+        Message('Order is closed');
+    end;
+    /// <summary>
+    /// ReOpen.
+    /// </summary>
+    procedure ReOpen()
+    begin
+        Closed := false;
+        modify();
+        Message('Order is re-opened');
     end;
 }
 

@@ -2,7 +2,7 @@
 /// <summary>
 /// PageExtension Cust.Ext (ID 50119) extends Record Customer Card.
 /// </summary>
-pageextension 50119 "Cust.Card.Ext" extends "Customer Card"
+pageextension 50119 "Customer Card" extends "Customer Card"
 {
     layout
     {

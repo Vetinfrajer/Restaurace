@@ -27,6 +27,7 @@ page 50110 "Rest. Order"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Customer No. field.';
+                    Importance = promoted;
                 }
                 field("Customer Name"; Rec."Customer Name")
                 {
@@ -76,26 +77,37 @@ page 50110 "Rest. Order"
     {
         area(Processing)
         {
-            action("Close")
+            group(releaseGroup)
             {
-                Caption = 'Release';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    Rec.Closed := true;
-                    Rec.Modify();
-                end;
+
+                ShowAs = splitbutton;
+                action("ReleaseAction")
+                {
+                    Caption = 'Release';
+                    ApplicationArea = All;
+                    Image = ReleaseDoc;
+                    trigger OnAction()
+                    begin
+                        Rec.Closed := true;
+                        Rec.Modify();
+                    end;
+                }
+                action("ReOpen")
+                {
+                    Caption = 'Open';
+                    ApplicationArea = All;
+                    Image = ReOpen;
+                    trigger OnAction()
+                    begin
+                        Rec.Closed := false;
+                        Rec.Modify();
+                    end;
+                }
             }
-            action("ReOpen")
-            {
-                Caption = 'Open';
-                ApplicationArea = All;
-                trigger OnAction()
-                begin
-                    Rec.Closed := false;
-                    Rec.Modify();
-                end;
-            }
+        }
+        area(Promoted)
+        {
+
         }
     }
     trigger OnOpenPage()

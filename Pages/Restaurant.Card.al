@@ -42,10 +42,9 @@ page 50106 "Restaurant Card"
         }
         area(FactBoxes)
         {
-            part(CustomerList; "Customer Details FactBox")
+            part("RestaurantOrderFactBox"; "Restaurant Order FactBox")
             {
                 ApplicationArea = All;
-                SubPageLink = "No." = FIELD("No.");
             }
         }
     }

@@ -5,7 +5,7 @@ table 50103 "Rest. Order Line"
 {
     DataClassification = CustomerContent;
     Caption = 'My Table';
-    LookupPageId = "Rest. Order List";
+    //LookupPageId = rest order line page ;
     DrillDownPageId = "Rest. Order List";
 
     fields
@@ -62,10 +62,12 @@ table 50103 "Rest. Order Line"
         field(8; "Rest. Table Code"; Code[20])
         {
             Caption = 'Table No.';
+            TableRelation = "Restaurant Table";
         }
         field(9; "Rest. No."; Code[20])
         {
             Caption = 'Rest. No.';
+            TableRelation = "Restaurant";
         }
         field(10; "Discount %"; Decimal)
         {
@@ -87,6 +89,7 @@ table 50103 "Rest. Order Line"
         field(13; "Customer No."; Code[20])
         {
             Caption = 'Customer No.';
+            TableRelation = Customer;
         }
     }
     keys
@@ -109,12 +112,12 @@ table 50103 "Rest. Order Line"
                 Rec."Line No." := RestOrderLine."Line No.";
         Rec."Line No." += 10000;
 
-        if RestOrderHeader.GET(Rec."Rest. Order No.") then
+        if not RestOrderHeader.GET() then begin
             Rec."Customer No." := RestOrderHeader."Customer No.";
-        if RestOrderHeader."Rest. No." <> Rec."Rest. No." then
             Rec."Rest. No." := RestOrderHeader."Rest. No.";
-        if RestOrderHeader."Rest. Table Code" <> Rec."Rest. Table Code" then
             Rec."Rest. Table Code" := RestOrderHeader."Rest. Table Code";
+        end;
+
     end;
 
 
@@ -139,29 +142,9 @@ table 50103 "Rest. Order Line"
     /// </summary>
     procedure UpdateAmounts()
     begin
-        if Rec."Quantity" = xRec.Quantity then
-            LineAmount();
-
-        if Rec."Unit Price" <> xRec."Unit Price" then
-            LineAmount();
-
-        if Rec."Discount %" <> xRec."Discount %" then
-            LineAmount();
-
-        if Rec."Discount amount" = 0 then
-            LineAmount()
-        else
-            "Total Amount" := Rec."Line amount" - Rec."Discount amount";
-    end;
-    /// <summary>
-    /// LineAmount.
-    /// </summary>
-    /// <returns>Return value of type begin.</returns>
-    procedure LineAmount()
-    begin
         Rec."Line amount" := Rec."Quantity" * Rec."Unit Price";
         Rec."Discount amount" := (Rec."Line amount" / 100) * Rec."Discount %";
-        "Total Amount" := Rec."Line amount"
+        "Total Amount" := Rec."Line amount" - Rec."Discount amount";
     end;
 
 
