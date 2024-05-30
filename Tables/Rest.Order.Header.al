@@ -80,7 +80,7 @@ table 50102 "Rest. Order Header"
             begin
                 if "Rest. No." <> xRec."Rest. No." then begin
                     if not Restaurant.Get() then
-                        Clear("Rest. name");
+                        Clear("Restaurant");
 
                     "Rest. Name" := Restaurant.Name;
 
@@ -119,7 +119,7 @@ table 50102 "Rest. Order Header"
         }
         field(10; "Closed"; boolean)
         {
-            Caption = 'Release';
+            Caption = 'Closed';
             Editable = false;
 
         }
@@ -135,18 +135,15 @@ table 50102 "Rest. Order Header"
     var
         RestOrderLine: Record "Rest. Order Line";
     begin
-        if Rec.Closed = true then begin
-            RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
-            RestOrderLine.DeleteAll(true);
-        end
-        else
-            Error('Cannot delete open order');
+        CheckOpen();
+
+        RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
+        RestOrderLine.DeleteAll(true);
     end;
 
     trigger OnModify()
     begin
-        if Rec.Closed = true then
-            Error('Cannot modify closed order');
+        CheckOpen();
     end;
 
 
@@ -209,6 +206,8 @@ table 50102 "Rest. Order Header"
     /// Release.
     /// </summary>
     procedure Release()
+    var
+        OrderIsClosedTxt: Label 'Order is Closed';
     begin
         TestField("Customer No.");
         TestField("Rest. No.");
@@ -216,16 +215,25 @@ table 50102 "Rest. Order Header"
 
         closed := true;
         modify();
-        Message('Order is closed');
+        Message(OrderIsClosedTxt);
     end;
     /// <summary>
     /// ReOpen.
     /// </summary>
     procedure ReOpen()
+    var
+        OrderIsOpenTxt: Label 'Order is Re-opened';
     begin
         Closed := false;
         modify();
-        Message('Order is re-opened');
+        Message(OrderIsOpenTxt);
+    end;
+    /// <summary>
+    /// CheckOpen.
+    /// </summary>
+    procedure CheckOpen()
+    begin
+        Rec.TestField(Closed, false);
     end;
 }
 

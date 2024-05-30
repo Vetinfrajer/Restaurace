@@ -1,12 +1,12 @@
 /// <summary>
-/// Table MyTable (ID 50103).
+/// Table Rest. Order Line (ID 50103).
 /// </summary>
 table 50103 "Rest. Order Line"
 {
     DataClassification = CustomerContent;
     Caption = 'My Table';
-    //LookupPageId = rest order line page ;
-    DrillDownPageId = "Rest. Order List";
+    LookupPageId = "Restaurant Order Lines List";
+    DrillDownPageId = "Restaurant Order Lines List";
 
     fields
     {
@@ -99,11 +99,15 @@ table 50103 "Rest. Order Line"
             Clustered = true;
         }
     }
+
     trigger OnInsert()
     var
         RestOrderLine: Record "Rest. Order Line";
         RestOrderHeader: Record "Rest. Order Header";
     begin
+        if RestOrderHeader.GET(Rec."Rest. Order No.") then
+            RestOrderHeader.CheckOpen();
+
         RestOrderLine.SetRange("Rest. Order No.", Rec."Rest. Order No.");
         if Rec."Line No." = 0 then
             Rec."Line No." := 10000
@@ -112,14 +116,28 @@ table 50103 "Rest. Order Line"
                 Rec."Line No." := RestOrderLine."Line No.";
         Rec."Line No." += 10000;
 
-        if not RestOrderHeader.GET() then begin
+        if RestOrderHeader.GET() then begin
             Rec."Customer No." := RestOrderHeader."Customer No.";
             Rec."Rest. No." := RestOrderHeader."Rest. No.";
             Rec."Rest. Table Code" := RestOrderHeader."Rest. Table Code";
         end;
-
     end;
 
+    trigger OnModify()
+    var
+        RestOrderHeader: Record "Rest. Order Header";
+    begin
+        if RestOrderHeader.GET(Rec."Rest. Order No.") then
+            RestOrderHeader.CheckOpen();
+    end;
+
+    trigger OnDelete()
+    var
+        RestOrderHeader: Record "Rest. Order Header";
+    begin
+        if RestOrderHeader.GET(Rec."Rest. Order No.") then
+            RestOrderHeader.CheckOpen();
+    end;
 
     /// <summary>
     /// UpdateInfoByItemNo.
@@ -137,6 +155,7 @@ table 50103 "Rest. Order Line"
             Rec.Validate("Unit Price", 0);
         end;
     end;
+
     /// <summary>
     /// Update Line Amount.
     /// </summary>
@@ -146,6 +165,4 @@ table 50103 "Rest. Order Line"
         Rec."Discount amount" := (Rec."Line amount" / 100) * Rec."Discount %";
         "Total Amount" := Rec."Line amount" - Rec."Discount amount";
     end;
-
-
 }

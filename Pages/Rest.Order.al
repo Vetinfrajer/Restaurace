@@ -53,11 +53,13 @@ page 50110 "Rest. Order"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Line Count field.';
+                    Importance = promoted;
                 }
                 field("Amount"; Rec."Amount")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Amount field.';
+                    Importance = promoted;
                 }
                 field("Release"; Rec."Closed")
                 {
@@ -75,44 +77,44 @@ page 50110 "Rest. Order"
     }
     actions
     {
-        area(Processing)
+        area(Creation)
         {
-            group(releaseGroup)
+            group(ReleaseAction)
             {
-
-                ShowAs = splitbutton;
-                action("ReleaseAction")
+                Caption = 'Order Actions';
+                action("ReleaseOrder")
                 {
                     Caption = 'Release';
                     ApplicationArea = All;
+                    Enabled = not Rec.Closed;
                     Image = ReleaseDoc;
                     trigger OnAction()
                     begin
-                        Rec.Closed := true;
-                        Rec.Modify();
+                        Rec.Release();
+                        CurrPage.Update(false);
                     end;
                 }
-                action("ReOpen")
+                action("ReOpenOrder")
                 {
                     Caption = 'Open';
                     ApplicationArea = All;
                     Image = ReOpen;
+                    Enabled = Rec.Closed;
                     trigger OnAction()
                     begin
-                        Rec.Closed := false;
-                        Rec.Modify();
+                        Rec.ReOpen();
+                        CurrPage.Update(false);
                     end;
                 }
             }
         }
         area(Promoted)
         {
-
+            group(Category_Report)
+            {
+                showAs = SplitButton;
+            }
         }
     }
-    trigger OnOpenPage()
-    begin
-        Rec.Closed := false;
-    end;
 }
 
