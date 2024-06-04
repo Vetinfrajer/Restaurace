@@ -4,8 +4,8 @@
 table 50102 "Rest. Order Header"
 {
     DataClassification = CustomerContent;
-    LookupPageId = "Rest. Order";
-    DrillDownPageId = "Rest. Order";
+    LookupPageId = "Restaurant Order";
+    DrillDownPageId = "Restaurant Order";
     Caption = 'Restaurant Order Header';
 
 
@@ -29,10 +29,10 @@ table 50102 "Rest. Order Header"
                 RestOrderLine: Record "Rest. Order Line";
             begin
                 if "Customer No." <> xRec."Customer No." then begin
-                    if not Customer.Get() then
+                    if Customer.Get("Customer No.") then
+                        "Customer Name" := Customer.Name
+                    else
                         Clear("Customer Name");
-
-                    "Customer Name" := Customer.Name;
 
                     RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
                     RestOrderLine.ModifyAll("Customer No.", Rec."Customer No.");
@@ -79,10 +79,10 @@ table 50102 "Rest. Order Header"
                 RestOrderLine: Record "Rest. Order Line";
             begin
                 if "Rest. No." <> xRec."Rest. No." then begin
-                    if not Restaurant.Get() then
-                        Clear("Restaurant");
-
-                    "Rest. Name" := Restaurant.Name;
+                    if Restaurant.Get("Rest. No.") then
+                        "Rest. Name" := Restaurant.Name
+                    else
+                        Clear("Rest. Name");
 
                     RestOrderLine.SetRange("Rest. Order No.", "No.");
                     RestOrderLine.ModifyAll("Rest. No.", "Rest. No.");
@@ -145,7 +145,6 @@ table 50102 "Rest. Order Header"
     begin
         CheckOpen();
     end;
-
 
     local procedure TestNoSeries()
     var

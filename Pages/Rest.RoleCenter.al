@@ -40,7 +40,7 @@ page 50113 RoleCenter
                 action("Restaurant Order List")
                 {
                     Caption = 'Restaurant Order List';
-                    RunObject = Page "Rest. Order List";
+                    RunObject = Page "Restaurant Order List";
                     ApplicationArea = All;
                     ToolTip = 'Executes the Restaurant Order List action.';
                 }

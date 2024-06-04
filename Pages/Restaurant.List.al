@@ -11,6 +11,7 @@ page 50107 "Restaurant List"
 
     layout
     {
+
         area(Content)
         {
             repeater(General)
@@ -51,7 +52,6 @@ page 50107 "Restaurant List"
                 RunPageLink = "Rest. No." = field("No.");
                 RunPageMode = Edit;
             }
-
         }
     }
 }

@@ -1,14 +1,14 @@
 /// <summary>
 /// Page Restaurant Order List (ID 50111).
 /// </summary>
-page 50111 "Rest. Order List"
+page 50111 "Restaurant Order List"
 {
 
     ApplicationArea = All;
     UsageCategory = Lists;
     pagetype = List;
     SourceTable = "Rest. Order Header";
-    CardPageId = "Rest. Order";
+    CardPageId = "Restaurant Order";
     Caption = 'Restaurant Order List';
     layout
     {

@@ -45,6 +45,16 @@ table 50149 "Restaurant Table"
                 where("Rest. Table Code" = field("Code"))
             );
         }
+        field(7; "Item Filter"; Code[20])
+        {
+            Caption = 'Item Filter';
+            FieldClass = FlowFilter;
+        }
+        field(8; "Filtered Amount"; Code[20])
+        {
+            Caption = 'Filtered Amount';
+            FieldClass = FlowFilter;
+        }
     }
 
     keys

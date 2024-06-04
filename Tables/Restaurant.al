@@ -47,6 +47,13 @@ table 50101 Restaurant
                 ("Rest. No." = field("No."))
             );
         }
+        field(6; "Table Code"; Code[20])
+        {
+            Caption = 'Table Code';
+            TableRelation = "Restaurant Table"."Code"
+                WHERE("Rest. No." = FIELD("No.")
+            );
+        }
     }
 
     keys

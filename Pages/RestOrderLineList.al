@@ -5,7 +5,7 @@ page 50131 "Restaurant Order Lines List"
 {
     PageType = Card;
     ApplicationArea = All;
-    UsageCategory = Administration;
+    UsageCategory = none;
     SourceTable = "Rest. Order Line";
 
     layout

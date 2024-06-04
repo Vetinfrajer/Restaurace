@@ -48,11 +48,14 @@ page 50105 "Restaurant Tables"
         }
         area(FactBoxes)
         {
-            part("RestaurantOrderFactBox"; "Restaurant Order FactBox")
+            part("RestaurantOrderFactBox"; "Restaurant Table FactBox")
             {
                 ApplicationArea = All;
-                //SubPageLink = Code = FIELD("Code");
             }
         }
+    }
+    actions
+    {
+
     }
 }
