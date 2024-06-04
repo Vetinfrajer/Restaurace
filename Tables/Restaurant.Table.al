@@ -42,18 +42,16 @@ table 50149 "Restaurant Table"
             Editable = false;
             FieldClass = FlowField;
             CalcFormula = Sum("Rest. Order Line"."Total Amount"
-                where("Rest. Table Code" = field("Code"))
+                where("Rest. Table Code" = field("Code"),
+                    "Item No." = field("Item Filter"))
             );
         }
         field(7; "Item Filter"; Code[20])
         {
             Caption = 'Item Filter';
             FieldClass = FlowFilter;
-        }
-        field(8; "Filtered Amount"; Code[20])
-        {
-            Caption = 'Filtered Amount';
-            FieldClass = FlowFilter;
+            TableRelation = "Rest. Order Line"."Item No." where
+                ("Rest. Table Code" = field("Code"));
         }
     }
 

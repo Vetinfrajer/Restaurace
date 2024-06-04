@@ -82,7 +82,7 @@ table 50102 "Rest. Order Header"
                     if Restaurant.Get("Rest. No.") then
                         "Rest. Name" := Restaurant.Name
                     else
-                        Clear("Rest. Name");
+                        "Rest. name" := '';
 
                     RestOrderLine.SetRange("Rest. Order No.", "No.");
                     RestOrderLine.ModifyAll("Rest. No.", "Rest. No.");

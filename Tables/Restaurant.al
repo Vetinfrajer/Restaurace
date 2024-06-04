@@ -5,8 +5,8 @@ table 50101 Restaurant
 {
     DataClassification = CustomerContent;
     Caption = 'Restaurant';
-    LookupPageId = "Restaurant List";
-    DrillDownPageId = "Restaurant List";
+    LookupPageId = "Restaurant Order Lines List";
+    DrillDownPageId = "Restaurant Order Lines List";
 
     fields
     {
@@ -34,9 +34,14 @@ table 50101 Restaurant
             Caption = 'Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Sum("Rest. Order Line"."Total Amount" where
-                ("Rest. No." = field("No."))
+            CalcFormula = Sum("Rest. Order Line"."Total Amount"
+            where(
+                "Rest. No." = FIELD("No."),
+                "Rest. Table Code" = FIELD("Rest. Table Filter")
+                )
             );
+
+
         }
         field(5; Count; Integer)
         {
@@ -47,12 +52,12 @@ table 50101 Restaurant
                 ("Rest. No." = field("No."))
             );
         }
-        field(6; "Table Code"; Code[20])
+        field(6; "Rest. Table Filter"; code[20])
         {
-            Caption = 'Table Code';
-            TableRelation = "Restaurant Table"."Code"
-                WHERE("Rest. No." = FIELD("No.")
-            );
+            Caption = 'Table Filter';
+            FieldClass = FlowFilter;
+            TableRelation = "Restaurant Table"."Code" where
+                ("Rest. No." = field("No."));
         }
     }
 

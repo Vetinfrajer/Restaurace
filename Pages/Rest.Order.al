@@ -14,11 +14,11 @@ page 50110 "Restaurant Order"
         {
             group(General)
             {
+                Editable = RestOrderEditable;
                 field("No."; Rec."No.")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the No. field.';
-                    Enabled = RestOrderEditable;
                     trigger OnAssistEdit()
                     begin
                         Rec.AssistEdit(xRec);
@@ -30,7 +30,6 @@ page 50110 "Restaurant Order"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Customer No. field.';
                     Importance = promoted;
-                    Enabled = RestOrderEditable;
                 }
                 field("Customer Name"; Rec."Customer Name")
                 {
@@ -41,13 +40,13 @@ page 50110 "Restaurant Order"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. No. field.';
-                    Enabled = RestOrderEditable;
+
                 }
                 field("Rest. Table Code"; Rec."Rest. Table Code")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Rest. Table Code field.';
-                    Enabled = RestOrderEditable;
+
                 }
                 field("Rest. Name"; Rec."Rest. Name")
                 {
@@ -88,7 +87,6 @@ page 50110 "Restaurant Order"
             group(ReleaseAction)
             {
                 Caption = 'Order Actions';
-                ShowAs = SplitButton;
                 action("ReleaseOrder")
                 {
                     Caption = 'Release';
@@ -113,35 +111,27 @@ page 50110 "Restaurant Order"
                         CurrPage.Update(false);
                     end;
                 }
-                action("StartBackgroundTask")
-                {
-                    Caption = 'Start Background Task';
-                    ApplicationArea = All;
-                    trigger OnAction()
-                    begin
-                        if Codeunit.Run(Codeunit::"Unit_PBT") then
-                            Message('Background task started successfully.');
-                    end;
-                }
             }
         }
         area(Promoted)
         {
-            group(Category_Report)
+            group(Category_Process)
             {
                 showAs = SplitButton;
+                actionref("ReleaseOrder_Promoted"; ReleaseOrder)
+                {
+
+                }
+                actionref("ReOpenOrder_Promoted"; ReOpenOrder)
+                {
+
+                }
             }
         }
     }
-
-    trigger OnOpenPage()
-    begin
-        UpdateRestOrderEditable();
-    end;
-
     trigger OnAfterGetRecord()
     begin
-        UpdateRestOrderEditable();
+        SetOrderEditable();
     end;
 
     var
@@ -150,7 +140,7 @@ page 50110 "Restaurant Order"
     /// UpdateRestOrderEditable.
     /// </summary>
 
-    procedure UpdateRestOrderEditable()
+    procedure SetOrderEditable()
     begin
         RestOrderEditable := not Rec.Closed;
     end;

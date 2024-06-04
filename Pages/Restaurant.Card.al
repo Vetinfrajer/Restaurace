@@ -45,6 +45,7 @@ page 50106 "Restaurant Card"
             part("RestaurantFactBox"; "Restaurant FactBox")
             {
                 ApplicationArea = All;
+                UpdatePropagation = Both;
                 SubPageLink = "Rest. No." = field("No.");
             }
         }
@@ -65,6 +66,4 @@ page 50106 "Restaurant Card"
             }
         }
     }
-
-
 }

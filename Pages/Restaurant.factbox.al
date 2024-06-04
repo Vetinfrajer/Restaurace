@@ -7,6 +7,7 @@ page 50137 "Restaurant FactBox"
     ApplicationArea = All;
     UsageCategory = None;
     SourceTable = "Rest. Order Header";
+    Caption = 'Restaurant FactBox';
 
     layout
     {
@@ -17,12 +18,10 @@ page 50137 "Restaurant FactBox"
                 field("Line Count"; Rec."Line Count")
                 {
                     ApplicationArea = All;
-                    Caption = 'Line Count';
                 }
                 field("Amount"; Rec.Amount)
                 {
                     ApplicationArea = All;
-                    Caption = 'Amount';
                 }
             }
         }

@@ -22,6 +22,7 @@ permissionset 50120 "Restaurant_R"
         page "Restaurant List" = X,
         page "Restaurant Order" = X,
         page "Restaurant Order List" = X,
+        page "Restaurant Order Lines List" = X,
         page "Restaurant Order Subpage" = X,
         page "Restaurant Setup" = X,
         page "Restaurant Table FactBox" = X,

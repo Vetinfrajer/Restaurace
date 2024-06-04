@@ -4,7 +4,9 @@
 page 50133 "Restaurant Table FactBox"
 {
     PageType = CardPart;
+    ApplicationArea = All;
     SourceTable = "Restaurant Table";
+    Caption = 'Restaurant Table FactBox';
 
     layout
     {
@@ -15,12 +17,10 @@ page 50133 "Restaurant Table FactBox"
                 field("Order Count"; Rec."Rest. Order Count")
                 {
                     ApplicationArea = All;
-                    Caption = 'Number of Orders';
                 }
                 field("Total Amount"; Rec."Rest. Order Amount")
                 {
                     ApplicationArea = All;
-                    Caption = 'Total Order Amount';
                 }
             }
         }
