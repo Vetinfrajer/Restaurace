@@ -148,6 +148,10 @@ page 50110 "Restaurant Order"
         }
     }
 
+    trigger OnOpenPage()
+    begin
+        RestOrderEditable := true;
+    end;
 
     trigger OnAfterGetRecord()
     begin

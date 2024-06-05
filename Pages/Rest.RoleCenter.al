@@ -18,9 +18,12 @@ page 50113 RoleCenter
                     Caption = 'Pokus';
                 }
             }
+            group("Cues")
+            {
+
+            }
         }
     }
-
 
     actions
     {
@@ -55,8 +58,6 @@ page 50113 RoleCenter
         }
     }
 }
-
-// Creates a profile that uses the Role Center
 profile MyProfile
 {
     ProfileDescription = 'Sample Profile';

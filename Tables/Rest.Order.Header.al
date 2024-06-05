@@ -28,15 +28,13 @@ table 50102 "Rest. Order Header"
                 Customer: Record Customer;
                 RestOrderLine: Record "Rest. Order Line";
             begin
-                if "Customer No." <> xRec."Customer No." then begin
-                    if Customer.Get("Customer No.") then
-                        "Customer Name" := Customer.Name
-                    else
-                        Clear("Customer Name");
+                if Customer.Get("Customer No.") then
+                    "Customer Name" := Customer.Name
+                else
+                    Clear("Customer Name");
 
-                    RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
-                    RestOrderLine.ModifyAll("Customer No.", Rec."Customer No.");
-                end;
+                RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
+                RestOrderLine.ModifyAll("Customer No.", Rec."Customer No.");
             end;
         }
         field(3; "Customer Name"; Text[100])
@@ -55,18 +53,16 @@ table 50102 "Rest. Order Header"
             var
                 RestOrderLine: Record "Rest. Order Line";
             begin
-                if Rec."Rest. Table Code" <> xRec."Rest. Table Code" then begin
-                    RestOrderLine.SetRange("Rest. Order No.", "No.");
-                    RestOrderLine.ModifyAll("Rest. Table Code", Rec."Rest. Table Code");
-                    /*
-                    toto řešení je pro více proměných
-                if RestOrderLine.FindSet(true) then begin
-                    repeat
-                        RestOrderLine."Rest. Table Code" := Rec."Rest. Table Code";
-                        RestOrderLine.Modify();
-                    until RestOrderLine.Next() = 0;
-                end;*/
-                end;
+                RestOrderLine.SetRange("Rest. Order No.", "No.");
+                RestOrderLine.ModifyAll("Rest. Table Code", Rec."Rest. Table Code");
+                /*
+                toto řešení je pro více proměných
+            if RestOrderLine.FindSet(true) then begin
+                repeat
+                    RestOrderLine."Rest. Table Code" := Rec."Rest. Table Code";
+                    RestOrderLine.Modify();
+                until RestOrderLine.Next() = 0;
+            end;*/
             end;
         }
         field(5; "Rest. No."; Code[20])
@@ -78,15 +74,13 @@ table 50102 "Rest. Order Header"
                 Restaurant: Record Restaurant;
                 RestOrderLine: Record "Rest. Order Line";
             begin
-                if "Rest. No." <> xRec."Rest. No." then begin
-                    if Restaurant.Get("Rest. No.") then
-                        "Rest. Name" := Restaurant.Name
-                    else
-                        "Rest. name" := '';
+                if Restaurant.Get("Rest. No.") then
+                    "Rest. Name" := Restaurant.Name
+                else
+                    "Rest. name" := '';
 
-                    RestOrderLine.SetRange("Rest. Order No.", "No.");
-                    RestOrderLine.ModifyAll("Rest. No.", "Rest. No.");
-                end;
+                RestOrderLine.SetRange("Rest. Order No.", "No.");
+                RestOrderLine.ModifyAll("Rest. No.", "Rest. No.");
             end;
         }
         field(6; "Rest. name"; Text[100])
