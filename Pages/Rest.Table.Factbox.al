@@ -17,10 +17,12 @@ page 50133 "Restaurant Table FactBox"
                 field("Order Count"; Rec."Rest. Order Count")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Count field.';
                 }
                 field("Total Amount"; Rec."Rest. Order Amount")
                 {
                     ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Amount field.';
                 }
             }
         }

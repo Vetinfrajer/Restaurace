@@ -10,7 +10,7 @@ page 50113 RoleCenter
     {
         area(RoleCenter)
         {
-            group(Wellcome)
+            group(Vitej)
             {
                 part(Part1; "Role Center HeadLine")
                 {
@@ -53,55 +53,6 @@ page 50113 RoleCenter
                 }
             }
         }
-
-        /*area(Embedding)
-        {
-
-            action(Sales)
-            {
-                Caption = 'Sales lists';
-                RunObject = Page "Sales list";
-                ApplicationArea = All;
-            }
-
-            action(Services)
-            {
-                Caption = 'Service lists';
-                RunObject = Page "Service list";
-                ApplicationArea = All;
-
-            }
-        }
-
-        area(Processing)
-        {
-            action(SeeSalesInvoices)
-            {
-                Caption = 'See Sales Invoices';
-                RunObject = Page "Posted Sales Invoices";
-            }
-        }
-
-        area(Creation)
-        {
-            action(AddSalesInvoice)
-            {
-                Caption = 'Add Sales Invoice';
-                Image = NewInvoice;
-                RunObject = Page "Sales Invoice";
-                RunPageMode = Create;
-            }
-        }
-
-        area(Reporting)
-        {
-            action(SalesInvoicesReport)
-            {
-                Caption = 'Sales Invoices Report';
-                Image = "Report";
-                RunObject = Report "Sales - Invoice";
-            }
-        }*/
     }
 }
 

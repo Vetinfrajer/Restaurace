@@ -51,6 +51,7 @@ page 50107 "Restaurant List"
                 RunPageView = sorting(Code) order(ascending);
                 RunPageLink = "Rest. No." = field("No.");
                 RunPageMode = Edit;
+                ToolTip = 'Executes the Restaurant Tables action.';
             }
         }
     }

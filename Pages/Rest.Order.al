@@ -79,6 +79,22 @@ page 50110 "Restaurant Order"
                 Enabled = RestOrderEditable;
             }
         }
+        area(FactBoxes)
+        {
+            part("Customer Details FactBox"; "Customer Details FactBox")
+            {
+                ApplicationArea = all;
+                UpdatePropagation = Both;
+                SubPageLink = "No." = FIELD("Customer No.");
+            }
+            part("Item Invoicing FactBox"; "Item Invoicing FactBox")
+            {
+                ApplicationArea = all;
+                UpdatePropagation = Both;
+                Provider = Lines;
+                SubPageLink = "No." = field("Item No.");
+            }
+        }
     }
     actions
     {
@@ -93,6 +109,7 @@ page 50110 "Restaurant Order"
                     ApplicationArea = All;
                     Enabled = not Rec.Closed;
                     Image = ReleaseDoc;
+                    ToolTip = 'Executes the Release action.';
                     trigger OnAction()
                     begin
                         Rec.Release();
@@ -105,6 +122,7 @@ page 50110 "Restaurant Order"
                     ApplicationArea = All;
                     Image = ReOpen;
                     Enabled = Rec.Closed;
+                    ToolTip = 'Executes the Open action.';
                     trigger OnAction()
                     begin
                         Rec.ReOpen();
@@ -129,6 +147,8 @@ page 50110 "Restaurant Order"
             }
         }
     }
+
+
     trigger OnAfterGetRecord()
     begin
         SetOrderEditable();
@@ -136,10 +156,10 @@ page 50110 "Restaurant Order"
 
     var
         RestOrderEditable: Boolean;
+
     /// <summary>
     /// UpdateRestOrderEditable.
     /// </summary>
-
     procedure SetOrderEditable()
     begin
         RestOrderEditable := not Rec.Closed;
