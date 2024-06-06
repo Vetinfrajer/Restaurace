@@ -32,6 +32,8 @@ table 50103 "Rest. Order Line"
             trigger OnValidate()
             begin
                 UpdateAmounts();
+                RestOrderHeader.GET("Rest. Order No.");
+                RestOrderHeader.CalculateOrderAmounts();
             end;
         }
 
@@ -41,6 +43,8 @@ table 50103 "Rest. Order Line"
             trigger OnValidate()
             begin
                 UpdateAmounts();
+                RestOrderHeader.Get("Rest. Order No.");
+                RestOrderHeader.CalculateOrderAmounts();
             end;
         }
 
@@ -142,7 +146,7 @@ table 50103 "Rest. Order Line"
     /// <summary>
     /// UpdateInfoByItemNo.
     /// </summary>
-    procedure UpdateInfoByItemNo()
+    local procedure UpdateInfoByItemNo()
     var
         Item: Record Item;
     begin
@@ -165,4 +169,7 @@ table 50103 "Rest. Order Line"
         Rec."Discount amount" := (Rec."Line amount" / 100) * Rec."Discount %";
         "Total Amount" := Rec."Line amount" - Rec."Discount amount";
     end;
+
+    var
+        RestOrderHeader: Record "Rest. Order Header";
 }

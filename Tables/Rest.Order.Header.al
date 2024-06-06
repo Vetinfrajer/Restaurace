@@ -1,5 +1,5 @@
 /// <summary>
-/// OnInsert.
+/// Table Rest. Order Header (ID 50102).
 /// </summary>
 table 50102 "Rest. Order Header"
 {
@@ -7,7 +7,6 @@ table 50102 "Rest. Order Header"
     LookupPageId = "Restaurant Order";
     DrillDownPageId = "Restaurant Order";
     Caption = 'Restaurant Order Header';
-
 
     fields
     {
@@ -22,7 +21,7 @@ table 50102 "Rest. Order Header"
         field(2; "Customer No."; Code[20])
         {
             Caption = 'Customer No.';
-            TableRelation = "Customer"."No.";
+            TableRelation = Customer."No.";
             trigger OnValidate()
             var
                 Customer: Record Customer;
@@ -45,30 +44,19 @@ table 50102 "Rest. Order Header"
         field(4; "Rest. Table Code"; Code[20])
         {
             Caption = 'Rest. Table Code';
-            TableRelation = "Restaurant Table"."Code"
-                WHERE("Rest. No." = FIELD("Rest. No.")
-            );
-
+            TableRelation = "Restaurant Table".Code WHERE("Rest. No." = FIELD("Rest. No."));
             trigger OnValidate()
             var
                 RestOrderLine: Record "Rest. Order Line";
             begin
                 RestOrderLine.SetRange("Rest. Order No.", "No.");
                 RestOrderLine.ModifyAll("Rest. Table Code", Rec."Rest. Table Code");
-                /*
-                toto řešení je pro více proměných
-            if RestOrderLine.FindSet(true) then begin
-                repeat
-                    RestOrderLine."Rest. Table Code" := Rec."Rest. Table Code";
-                    RestOrderLine.Modify();
-                until RestOrderLine.Next() = 0;
-            end;*/
             end;
         }
         field(5; "Rest. No."; Code[20])
         {
             Caption = 'Rest. No.';
-            TableRelation = "Restaurant"."No.";
+            TableRelation = Restaurant."No.";
             trigger OnValidate()
             var
                 Restaurant: Record Restaurant;
@@ -77,15 +65,15 @@ table 50102 "Rest. Order Header"
                 if Restaurant.Get("Rest. No.") then
                     "Rest. Name" := Restaurant.Name
                 else
-                    "Rest. name" := '';
+                    "Rest. Name" := '';
 
                 RestOrderLine.SetRange("Rest. Order No.", "No.");
                 RestOrderLine.ModifyAll("Rest. No.", "Rest. No.");
             end;
         }
-        field(6; "Rest. name"; Text[100])
+        field(6; "Rest. Name"; Text[100])
         {
-            Caption = 'Rest. name';
+            Caption = 'Rest. Name';
             Editable = false;
         }
         field(7; "No. Series"; Code[20])
@@ -98,24 +86,18 @@ table 50102 "Rest. Order Header"
             Caption = 'Amount';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Sum("Rest. Order Line"."Total Amount" where
-                ("Rest. Order No." = field("No."))
-            );
+            CalcFormula = Sum("Rest. Order Line"."Total Amount" WHERE("Rest. Order No." = FIELD("No.")));
         }
         field(9; "Line Count"; Integer)
         {
             Caption = 'Line Count';
             Editable = false;
             FieldClass = FlowField;
-            CalcFormula = Count("Rest. Order Line" where
-                ("Rest. Order No." = field("No."))
-            );
+            CalcFormula = Count("Rest. Order Line" WHERE("Rest. Order No." = FIELD("No.")));
         }
-        field(10; "Closed"; boolean)
+        field(10; "Closed"; Boolean)
         {
             Caption = 'Closed';
-            Editable = false;
-
         }
     }
     keys
@@ -125,12 +107,17 @@ table 50102 "Rest. Order Header"
             Clustered = true;
         }
     }
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeReleaseEvent(var Rec: Record "Rest. Order Header";
+    var IsHandled: Boolean)
+    begin
+    end;
+
     trigger OnDelete()
     var
         RestOrderLine: Record "Rest. Order Line";
     begin
         CheckOpen();
-
         RestOrderLine.SetRange("Rest. Order No.", Rec."No.");
         RestOrderLine.DeleteAll(true);
     end;
@@ -138,6 +125,18 @@ table 50102 "Rest. Order Header"
     trigger OnModify()
     begin
         CheckOpen();
+    end;
+
+    trigger OnInsert()
+    var
+        NoSeriesMgt: Codeunit NoSeriesManagement;
+        RestaurantSetup: Record "Restaurant Setup";
+    begin
+        if "No." = '' then begin
+            RestaurantSetup.Get();
+            RestaurantSetup.TestField("Restaurant Order Nos.");
+            NoSeriesMgt.InitSeries(RestaurantSetup."Restaurant Order Nos.", "No. Series", 0D, "No.", "No. Series");
+        end;
     end;
 
     local procedure TestNoSeries()
@@ -175,58 +174,71 @@ table 50102 "Rest. Order Header"
     begin
         RestaurantSetup.Get();
         RestaurantSetup.TestField("Restaurant Order Nos.");
-        if NoSeriesMgt.SelectSeries(RestaurantSetup."Restaurant Order Nos.", OldHeader."No. Series", "No. Series")
-        then begin
+        if NoSeriesMgt.SelectSeries(RestaurantSetup."Restaurant Order Nos.", OldHeader."No. Series", "No. Series") then begin
             NoSeriesMgt.SetSeries("No.");
             exit(true);
         end;
     end;
 
-    trigger OnInsert()
-    var
-        IsHandled: Boolean;
-        NoSeriesMgt: Codeunit NoSeriesManagement;
-        RestaurantSetup: Record "Restaurant Setup";
-    begin
-        if "No." = '' then begin
-            RestaurantSetup.Get();
-            RestaurantSetup.TestField("Restaurant Order Nos.");
-            NoSeriesMgt.InitSeries(RestaurantSetup."Restaurant Order Nos.", xRec."No. Series", 0D, "No.", "No. Series");
-        end;
-    end;
-
     /// <summary>
-    /// Release.
+    /// ReOpen.
     /// </summary>
     procedure Release()
     var
         OrderIsClosedTxt: Label 'Order is Closed';
+        IsHandled: Boolean;
     begin
+        OnBeforeReleaseEvent(Rec, IsHandled);
+        if IsHandled then
+            exit;
+
         TestField("Customer No.");
         TestField("Rest. No.");
         TestField("Rest. Table Code");
 
-        closed := true;
-        modify();
+        Closed := true;
+        Modify();
         Message(OrderIsClosedTxt);
     end;
+
     /// <summary>
-    /// ReOpen.
+    /// CheckOpen.
     /// </summary>
     procedure ReOpen()
     var
         OrderIsOpenTxt: Label 'Order is Re-opened';
     begin
         Closed := false;
-        modify();
+        Modify();
         Message(OrderIsOpenTxt);
     end;
+
     /// <summary>
-    /// CheckOpen.
+    /// 
     /// </summary>
     procedure CheckOpen()
     begin
-        Rec.TestField(Closed, false);
+        TestField(Closed, false);
+    end;
+
+    /// <summary>
+    /// CalculateTotalAmounts.
+    /// </summary>
+    procedure CalculateOrderAmounts()
+    var
+        RestOrderLine: Record "Rest. Order Line";
+        TotalAmount: Decimal;
+        ErrorInfoTxt: Label 'Error calculating amounts for Order %1: %2';
+    begin
+        RestOrderLine.SetRange("Rest. Order No.", "No.");
+        if RestOrderLine.FindSet() then begin
+            repeat
+                RestOrderLine.CalcFields("Total Amount");
+                TotalAmount += RestOrderLine."Total Amount";
+            until RestOrderLine.Next() = 0;
+            Amount := TotalAmount;
+            Modify();
+        end else
+            Error(ErrorInfoTxt, "No.", GetLastErrorText());
     end;
 }
-

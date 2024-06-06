@@ -5,7 +5,7 @@ table 50101 Restaurant
 {
     DataClassification = CustomerContent;
     Caption = 'Restaurant';
-    LookupPageId = "Restaurant Order Lines List";
+    LookupPageId = "Restaurant List";
     DrillDownPageId = "Restaurant Order Lines List";
 
     fields
@@ -45,7 +45,7 @@ table 50101 Restaurant
         }
         field(5; Count; Integer)
         {
-            Caption = 'Count';
+            Caption = 'Order Count';
             Editable = false;
             FieldClass = FlowField;
             CalcFormula = Count("Rest. Order header" where
