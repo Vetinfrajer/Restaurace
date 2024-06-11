@@ -14,6 +14,11 @@ page 50133 "Restaurant Table FactBox"
         {
             group(Group)
             {
+                field("Table Code"; Rec."Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Code field.';
+                }
                 field("Order Count"; Rec."Rest. Order Count")
                 {
                     ApplicationArea = All;
@@ -27,4 +32,10 @@ page 50133 "Restaurant Table FactBox"
             }
         }
     }
+    trigger OnOpenPage()
+    var
+        RestTableFactboxQuery: Query "Restaurant Table FactBox Query";
+    begin
+        RestTableFactboxQuery.Open();
+    end;
 }

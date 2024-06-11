@@ -108,8 +108,7 @@ table 50102 "Rest. Order Header"
         }
     }
     [IntegrationEvent(false, false)]
-    local procedure OnBeforeReleaseEvent(var Rec: Record "Rest. Order Header";
-    var IsHandled: Boolean)
+    local procedure OnBeforeRelease(var Rec: Record "Rest. Order Header"; var IsHandled: Boolean)
     begin
     end;
 
@@ -188,7 +187,7 @@ table 50102 "Rest. Order Header"
         OrderIsClosedTxt: Label 'Order is Closed';
         IsHandled: Boolean;
     begin
-        OnBeforeReleaseEvent(Rec, IsHandled);
+        OnBeforeRelease(Rec, IsHandled);
         if IsHandled then
             exit;
 
@@ -224,6 +223,7 @@ table 50102 "Rest. Order Header"
     /// <summary>
     /// CalculateTotalAmounts.
     /// </summary>
+    /*
     procedure CalculateOrderAmounts()
     var
         RestOrderLine: Record "Rest. Order Line";
@@ -240,5 +240,5 @@ table 50102 "Rest. Order Header"
             Modify();
         end else
             Error(ErrorInfoTxt, "No.", GetLastErrorText());
-    end;
+    end;*/
 }

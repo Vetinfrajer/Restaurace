@@ -32,8 +32,8 @@ table 50103 "Rest. Order Line"
             trigger OnValidate()
             begin
                 UpdateAmounts();
-                RestOrderHeader.GET("Rest. Order No.");
-                RestOrderHeader.CalculateOrderAmounts();
+                //RestOrderHeader.GET("Rest. Order No.");
+                //RestOrderHeader.CalculateOrderAmounts();
             end;
         }
 
@@ -43,8 +43,8 @@ table 50103 "Rest. Order Line"
             trigger OnValidate()
             begin
                 UpdateAmounts();
-                RestOrderHeader.Get("Rest. Order No.");
-                RestOrderHeader.CalculateOrderAmounts();
+                //RestOrderHeader.Get("Rest. Order No.");
+                //RestOrderHeader.CalculateOrderAmounts();
             end;
         }
 

@@ -29,23 +29,31 @@ page 50137 "Restaurant FactBox"
             }
         }
     }
+
     var
+        WaitTaskId: Integer;
         LineCount: Integer;
         Amount: Decimal;
-    /*
-        trigger OnOpenPage()
-        var
-            BackgroundTask: Codeunit BackgroundTaskRunner;
-            RestNo: Code[20];
-            AmountOutput: decimal;
-            CountOutput: integer;
-        begin
-            RestNo := Rec."Rest. No.";
 
-            BackgroundTask.RunBackgroundTask(Codeunit::Unit_PBT, 'ProcessData', RestNo, AmountOutput, CountOutput);
 
-            LineCount := CountOutput;
-            Amount := AmountOutput;
+    trigger OnAfterGetCurrRecord()
+    var
+        TaskParameters: Dictionary of [Text, Text];
+    begin
+        TaskParameters.Add('OrderNo', Rec."No.");
+        CurrPage.EnqueueBackgroundTask(WaitTaskId, Codeunit::Unit_PBT, TaskParameters, 1000, PageBackgroundTaskErrorLevel::Warning);
+        //přerušení pbt když nějaký běží
+    end;
 
-        end;*/
+    trigger OnPageBackgroundTaskCompleted(BackgroundTaskId: Integer; Result: Dictionary of [Text, Text])
+    var
+        LineCountTxt: label 'Line Count';
+        AmountTxt: label 'Amount';
+    begin
+        if BackgroundTaskId = WaitTaskId then begin
+            Evaluate(LineCount, Result.Get(LineCountTxt));
+            Evaluate(Amount, Result.Get(AmountTxt));
+            CurrPage.Update(true);
+        end;
+    end;
 }
